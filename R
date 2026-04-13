@@ -1,0 +1,4289 @@
+library(Seurat)
+library(tidyverse)
+library(viridis)
+library(ggplot2)
+library(cowplot)
+library(RColorBrewer)
+library(readxl)
+library(harmony)
+library(decontX)
+library(ggalluvial)
+library(tidydr)
+library(scales)
+library(dplyr)
+library(openxlsx)
+library(tidyr)
+
+####RU426####
+RU426_data <- read.csv("data/RU426/1598_Ru426B_IGO_10414_9_dense.csv", header = T, row.names = "X")
+RU426_cluster <- RU426_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU426_data <- RU426_data[,-1]
+RU426_data <- t(RU426_data)
+rownames(RU426_data) <- str_replace_all(rownames(RU426_data), "^MT\\.", "MT-")
+dim(RU426_data)
+RU426 <- CreateSeuratObject(counts = RU426_data, project = "RU426", min.cells = 10)
+dim(RU426)
+RU426[["percent.mt"]] <- PercentageFeatureSet(RU426, pattern = "^MT-")
+VlnPlot(RU426, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU426_cluster <- column_to_rownames(RU426_cluster,"barcodes")
+identical(colnames(RU426),rownames(RU426_cluster))
+RU426$author_cluster <- RU426_cluster
+
+####RU779####
+RU779_data <- read.csv("data/RU779/1358_RU779D_P95_IGO_10128_2_dense.csv", header = T, row.names = "X")
+RU779_cluster <- RU779_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU779_data <- RU779_data[,-1]
+RU779_data <- t(RU779_data)
+rownames(RU779_data) <- str_replace_all(rownames(RU779_data), "^MT\\.", "MT-")
+dim(RU779_data)
+RU779 <- CreateSeuratObject(counts = RU779_data, project = "RU779", min.cells = 10)
+dim(RU779)
+RU779[["percent.mt"]] <- PercentageFeatureSet(RU779, pattern = "^MT-")
+VlnPlot(RU779, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU779_cluster <- column_to_rownames(RU779_cluster,"barcodes")
+identical(colnames(RU779),rownames(RU779_cluster))
+RU779$author_cluster <- RU779_cluster
+
+####RU1065####
+RU1065_data <- read.csv("data/RU1065/1570_Ru1065C_P96_IGO_10317_5_dense.csv", header = T, row.names = "X")
+RU1065_cluster <- RU1065_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1065_data <- RU1065_data[,-1]
+RU1065_data <- t(RU1065_data)
+rownames(RU1065_data) <- str_replace_all(rownames(RU1065_data), "^MT\\.", "MT-")
+dim(RU1065_data)
+RU1065 <- CreateSeuratObject(counts = RU1065_data, project = "RU1065", min.cells = 10)
+dim(RU1065)
+RU1065[["percent.mt"]] <- PercentageFeatureSet(RU1065, pattern = "^MT-")
+VlnPlot(RU1065, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1065_cluster <- column_to_rownames(RU1065_cluster,"barcodes")
+identical(colnames(RU1065),rownames(RU1065_cluster))
+RU1065$author_cluster <- RU1065_cluster
+
+####RU1066####
+RU1066_data <- read.csv("data/RU1066/Ru1066_dense.csv", header = T, row.names = "X")
+RU1066_cluster <- RU1066_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1066_data <- RU1066_data[,-1]
+RU1066_data <- t(RU1066_data)
+rownames(RU1066_data) <- str_replace_all(rownames(RU1066_data), "^MT\\.", "MT-")
+dim(RU1066_data)
+RU1066 <- CreateSeuratObject(counts = RU1066_data, project = "RU1066", min.cells = 10)
+dim(RU1066)
+RU1066[["percent.mt"]] <- PercentageFeatureSet(RU1066, pattern = "^MT-")
+VlnPlot(RU1066, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1066_cluster <- column_to_rownames(RU1066_cluster,"barcodes")
+identical(colnames(RU1066),rownames(RU1066_cluster))
+RU1066$author_cluster <- RU1066_cluster
+
+####RU1080####
+RU1080_data <- read.csv("data/RU1080/1204_Ru1080C_IGO_10034_15_dense.csv", header = T, row.names = "X")
+RU1080_cluster <- RU1080_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1080_data <- RU1080_data[,-1]
+RU1080_data <- t(RU1080_data)
+rownames(RU1080_data) <- str_replace_all(rownames(RU1080_data), "^MT\\.", "MT-")
+dim(RU1080_data)
+RU1080 <- CreateSeuratObject(counts = RU1080_data, project = "RU1080", min.cells = 10)
+dim(RU1080)
+RU1080[["percent.mt"]] <- PercentageFeatureSet(RU1080, pattern = "^MT-")
+VlnPlot(RU1080, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1080_cluster <- column_to_rownames(RU1080_cluster,"barcodes")
+identical(colnames(RU1080),rownames(RU1080_cluster))
+RU1080$author_cluster <- RU1080_cluster
+
+####RU1108####
+RU1108_data <- read.csv("data/RU1108/Ru1108a_RPMI_dense.csv", header = T, row.names = "X")
+RU1108_cluster <- RU1108_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1108_data <- RU1108_data[,-1]
+RU1108_data <- t(RU1108_data)
+rownames(RU1108_data) <- str_replace_all(rownames(RU1108_data), "^MT\\.", "MT-")
+dim(RU1108_data)
+RU1108 <- CreateSeuratObject(counts = RU1108_data, project = "RU1108", min.cells = 10)
+dim(RU1108)
+RU1108[["percent.mt"]] <- PercentageFeatureSet(RU1108, pattern = "^MT-")
+VlnPlot(RU1108, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1108_cluster <- column_to_rownames(RU1108_cluster,"barcodes")
+identical(colnames(RU1108),rownames(RU1108_cluster))
+RU1108$author_cluster <- RU1108_cluster
+
+####RU1124####
+RU1124_data <- read.csv("data/RU1124/1387_Ru1124A_1LN_plus_P96_IGO_10128_15_dense.csv", header = T, row.names = "X")
+RU1124_cluster <- RU1124_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1124_data <- RU1124_data[,-1]
+RU1124_data <- t(RU1124_data)
+rownames(RU1124_data) <- str_replace_all(rownames(RU1124_data), "^MT\\.", "MT-")
+dim(RU1124_data)
+RU1124 <- CreateSeuratObject(counts = RU1124_data, project = "RU1124", min.cells = 10)
+dim(RU1124)
+RU1124[["percent.mt"]] <- PercentageFeatureSet(RU1124, pattern = "^MT-")
+VlnPlot(RU1124, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1124_cluster <- column_to_rownames(RU1124_cluster,"barcodes")
+identical(colnames(RU1124),rownames(RU1124_cluster))
+RU1124$author_cluster <- RU1124_cluster
+
+####RU1144_1####
+RU1144_1_data <- read.csv("data/RU1144_1/Ru1144_dense.csv", header = T, row.names = "X")
+RU1144_1_cluster <- RU1144_1_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1144_1_data <- RU1144_1_data[,-1]
+RU1144_1_data <- t(RU1144_1_data)
+rownames(RU1144_1_data) <- str_replace_all(rownames(RU1144_1_data), "^MT\\.", "MT-")
+dim(RU1144_1_data)
+RU1144_1 <- CreateSeuratObject(counts = RU1144_1_data, project = "RU1144_1", min.cells = 10)
+dim(RU1144_1)
+RU1144_1[["percent.mt"]] <- PercentageFeatureSet(RU1144_1, pattern = "^MT-")
+VlnPlot(RU1144_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1144_1_cluster <- column_to_rownames(RU1144_1_cluster,"barcodes")
+identical(colnames(RU1144_1),rownames(RU1144_1_cluster))
+RU1144_1$author_cluster <- RU1144_1_cluster
+
+####RU1144_2####
+RU1144_2_data <- read.csv("data/RU1144_2/Ru1144_FNA_dense.csv", header = T, row.names = "X")
+RU1144_2_cluster <- RU1144_2_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1144_2_data <- RU1144_2_data[,-1]
+RU1144_2_data <- t(RU1144_2_data)
+rownames(RU1144_2_data) <- str_replace_all(rownames(RU1144_2_data), "^MT\\.", "MT-")
+dim(RU1144_2_data)
+RU1144_2 <- CreateSeuratObject(counts = RU1144_2_data, project = "RU1144_2", min.cells = 10)
+dim(RU1144_2)
+RU1144_2[["percent.mt"]] <- PercentageFeatureSet(RU1144_2, pattern = "^MT-")
+VlnPlot(RU1144_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1144_2_cluster <- column_to_rownames(RU1144_2_cluster,"barcodes")
+identical(colnames(RU1144_2),rownames(RU1144_2_cluster))
+RU1144_2$author_cluster <- RU1144_2_cluster
+
+####RU1145####
+RU1145_data <- read.csv("data/RU1145/RU1145_dense.csv", header = T, row.names = "X")
+RU1145_cluster <- RU1145_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1145_data <- RU1145_data[,-1]
+RU1145_data <- t(RU1145_data)
+rownames(RU1145_data) <- str_replace_all(rownames(RU1145_data), "^MT\\.", "MT-")
+dim(RU1145_data)
+RU1145 <- CreateSeuratObject(counts = RU1145_data, project = "RU1145", min.cells = 10)
+dim(RU1145)
+RU1145[["percent.mt"]] <- PercentageFeatureSet(RU1145, pattern = "^MT-")
+VlnPlot(RU1145, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1145_cluster <- column_to_rownames(RU1145_cluster,"barcodes")
+identical(colnames(RU1145),rownames(RU1145_cluster))
+RU1145$author_cluster <- RU1145_cluster
+
+####RU1152####
+RU1152_data <- read.csv("data/RU1152/768_Ru1152_P96_IGO_09902_13_dense.csv", header = T, row.names = "X")
+RU1152_cluster <- RU1152_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1152_data <- RU1152_data[,-1]
+RU1152_data <- t(RU1152_data)
+rownames(RU1152_data) <- str_replace_all(rownames(RU1152_data), "^MT\\.", "MT-")
+dim(RU1152_data)
+RU1152 <- CreateSeuratObject(counts = RU1152_data, project = "RU1152", min.cells = 10)
+dim(RU1152)
+RU1152[["percent.mt"]] <- PercentageFeatureSet(RU1152, pattern = "^MT-")
+VlnPlot(RU1152, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1152_cluster <- column_to_rownames(RU1152_cluster,"barcodes")
+identical(colnames(RU1152),rownames(RU1152_cluster))
+RU1152$author_cluster <- RU1152_cluster
+
+####RU1195####
+RU1195_data <- read.csv("data/RU1195/1205_Ru1195A_IGO_10218_1_dense.csv", header = T, row.names = "X")
+RU1195_cluster <- RU1195_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1195_data <- RU1195_data[,-1]
+RU1195_data <- t(RU1195_data)
+rownames(RU1195_data) <- str_replace_all(rownames(RU1195_data), "^MT\\.", "MT-")
+dim(RU1195_data)
+RU1195 <- CreateSeuratObject(counts = RU1195_data, project = "RU1195", min.cells = 10)
+dim(RU1195)
+RU1195[["percent.mt"]] <- PercentageFeatureSet(RU1195, pattern = "^MT-")
+VlnPlot(RU1195, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1195_cluster <- column_to_rownames(RU1195_cluster,"barcodes")
+identical(colnames(RU1195),rownames(RU1195_cluster))
+RU1195$author_cluster <- RU1195_cluster
+
+####RU1215####
+RU1215_data <- read.csv("data/RU1215/1359_Ru1215_P96_IGO_10128_3_dense.csv", header = T, row.names = "X")
+RU1215_cluster <- RU1215_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1215_data <- RU1215_data[,-1]
+RU1215_data <- t(RU1215_data)
+rownames(RU1215_data) <- str_replace_all(rownames(RU1215_data), "^MT\\.", "MT-")
+dim(RU1215_data)
+RU1215 <- CreateSeuratObject(counts = RU1215_data, project = "RU1215", min.cells = 10)
+dim(RU1215)
+RU1215[["percent.mt"]] <- PercentageFeatureSet(RU1215, pattern = "^MT-")
+VlnPlot(RU1215, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1215_cluster <- column_to_rownames(RU1215_cluster,"barcodes")
+identical(colnames(RU1215),rownames(RU1215_cluster))
+RU1215$author_cluster <- RU1215_cluster
+
+####RU1229####
+RU1229_data <- read.csv("data/RU1229/1453_Ru1229A_Frozen_P96_IGO_10178_23_dense.csv", header = T, row.names = "X")
+RU1229_cluster <- RU1229_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1229_data <- RU1229_data[,-1]
+RU1229_data <- t(RU1229_data)
+rownames(RU1229_data) <- str_replace_all(rownames(RU1229_data), "^MT\\.", "MT-")
+dim(RU1229_data)
+RU1229 <- CreateSeuratObject(counts = RU1229_data, project = "RU1229", min.cells = 10)
+dim(RU1229)
+RU1229[["percent.mt"]] <- PercentageFeatureSet(RU1229, pattern = "^MT-")
+VlnPlot(RU1229, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1229_cluster <- column_to_rownames(RU1229_cluster,"barcodes")
+identical(colnames(RU1229),rownames(RU1229_cluster))
+RU1229$author_cluster <- RU1229_cluster
+
+####RU1231####
+RU1231_data <- read.csv("data/RU1231/1428_Ru1231A_P96_IGO_10178_15_dense.csv", header = T, row.names = "X")
+RU1231_cluster <- RU1231_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1231_data <- RU1231_data[,-1]
+RU1231_data <- t(RU1231_data)
+rownames(RU1231_data) <- str_replace_all(rownames(RU1231_data), "^MT\\.", "MT-")
+dim(RU1231_data)
+RU1231 <- CreateSeuratObject(counts = RU1231_data, project = "RU1231", min.cells = 10)
+dim(RU1231)
+RU1231[["percent.mt"]] <- PercentageFeatureSet(RU1231, pattern = "^MT-")
+VlnPlot(RU1231, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1231_cluster <- column_to_rownames(RU1231_cluster,"barcodes")
+identical(colnames(RU1231),rownames(RU1231_cluster))
+RU1231$author_cluster <- RU1231_cluster
+
+####RU1293####
+RU1293_data <- read.csv("data/RU1293/1619_RU1293A_T_1_IGO_10446_17_dense.csv", header = T, row.names = "X")
+RU1293_cluster <- RU1293_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1293_data <- RU1293_data[,-1]
+RU1293_data <- t(RU1293_data)
+rownames(RU1293_data) <- str_replace_all(rownames(RU1293_data), "^MT\\.", "MT-")
+dim(RU1293_data)
+RU1293 <- CreateSeuratObject(counts = RU1293_data, project = "RU1293", min.cells = 10)
+dim(RU1293)
+RU1293[["percent.mt"]] <- PercentageFeatureSet(RU1293, pattern = "^MT-")
+VlnPlot(RU1293, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1293_cluster <- column_to_rownames(RU1293_cluster,"barcodes")
+identical(colnames(RU1293),rownames(RU1293_cluster))
+RU1293$author_cluster <- RU1293_cluster
+
+####RU1311####
+RU1311_data <- read.csv("data/RU1311/1691_Ru1311A_T_1_IGO_10506_6_dense.csv", header = T, row.names = "X")
+RU1311_cluster <- RU1311_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1311_data <- RU1311_data[,-1]
+RU1311_data <- t(RU1311_data)
+rownames(RU1311_data) <- str_replace_all(rownames(RU1311_data), "^MT\\.", "MT-")
+dim(RU1311_data)
+RU1311 <- CreateSeuratObject(counts = RU1311_data, project = "RU1311", min.cells = 10)
+dim(RU1311)
+RU1311[["percent.mt"]] <- PercentageFeatureSet(RU1311, pattern = "^MT-")
+VlnPlot(RU1311, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1311_cluster <- column_to_rownames(RU1311_cluster,"barcodes")
+identical(colnames(RU1311),rownames(RU1311_cluster))
+RU1311$author_cluster <- RU1311_cluster
+
+####RU1322####
+RU1322_data <- read.csv("data/RU1322/1704_Ru1322A_LN_1_IGO_10519_17_dense.csv", header = T, row.names = "X")
+RU1322_cluster <- RU1322_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1322_data <- RU1322_data[,-1]
+RU1322_data <- t(RU1322_data)
+rownames(RU1322_data) <- str_replace_all(rownames(RU1322_data), "^MT\\.", "MT-")
+dim(RU1322_data)
+RU1322 <- CreateSeuratObject(counts = RU1322_data, project = "RU1322", min.cells = 10)
+dim(RU1322)
+RU1322[["percent.mt"]] <- PercentageFeatureSet(RU1322, pattern = "^MT-")
+VlnPlot(RU1322, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1322_cluster <- column_to_rownames(RU1322_cluster,"barcodes")
+identical(colnames(RU1322),rownames(RU1322_cluster))
+RU1322$author_cluster <- RU1322_cluster
+
+####RU1181_1####
+RU1181_1_data <- read.csv("data/RU1181_1/1498_Ru1181C_P96_IGO_10298_4_dense.csv", header = T, row.names = "X")
+RU1181_1_cluster <- RU1181_1_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1181_1_data <- RU1181_1_data[,-1]
+RU1181_1_data <- t(RU1181_1_data)
+rownames(RU1181_1_data) <- str_replace_all(rownames(RU1181_1_data), "^MT\\.", "MT-")
+dim(RU1181_1_data)
+RU1181_1 <- CreateSeuratObject(counts = RU1181_1_data, project = "RU1181_1", min.cells = 10)
+dim(RU1181_1)
+RU1181_1[["percent.mt"]] <- PercentageFeatureSet(RU1181_1, pattern = "^MT-")
+VlnPlot(RU1181_1, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1181_1_cluster <- column_to_rownames(RU1181_1_cluster,"barcodes")
+identical(colnames(RU1181_1),rownames(RU1181_1_cluster))
+RU1181_1$author_cluster <- RU1181_1_cluster
+
+####RU1181_2####
+RU1181_2_data <- read.csv("data/RU1181_2/1571_1181B-2_P96_IGO_10317_4_dense.csv", header = T, row.names = "X")
+RU1181_2_cluster <- RU1181_2_data %>% rownames_to_column("barcodes") %>% select(c(1:2))
+RU1181_2_data <- RU1181_2_data[,-1]
+RU1181_2_data <- t(RU1181_2_data)
+rownames(RU1181_2_data) <- str_replace_all(rownames(RU1181_2_data), "^MT\\.", "MT-")
+dim(RU1181_2_data)
+RU1181_2 <- CreateSeuratObject(counts = RU1181_2_data, project = "RU1181_2", min.cells = 10)
+dim(RU1181_2)
+RU1181_2[["percent.mt"]] <- PercentageFeatureSet(RU1181_2, pattern = "^MT-")
+VlnPlot(RU1181_2, features = c("nFeature_RNA", "nCount_RNA", "percent.mt"), ncol = 3)
+RU1181_2_cluster <- column_to_rownames(RU1181_2_cluster,"barcodes")
+identical(colnames(RU1181_2),rownames(RU1181_2_cluster))
+RU1181_2$author_cluster <- RU1181_2_cluster
+
+####20####
+list <- list(RU426 = RU426, RU779 = RU779, RU1065 = RU1065, RU1066 = RU1066, RU1080 = RU1080, RU1108 = RU1108, 
+             RU1124 = RU1124, RU1144_1 = RU1144_1, RU1144_2 = RU1144_2, RU1145 = RU1145, RU1152 = RU1152, 
+             RU1195 = RU1195, RU1215 = RU1215, RU1229 = RU1229, RU1231 = RU1231, RU1293 = RU1293, RU1311 = RU1311, 
+             RU1322 = RU1322, RU181_1 = RU1181_1, RU181_2 = RU1181_2)
+list <- lapply(X = list, FUN = function(x) {
+  x <- NormalizeData(x)
+  x <- FindVariableFeatures(x)
+})
+features <- SelectIntegrationFeatures(list)
+rm(list = ls(pattern = "^RU"))
+anchors <- FindIntegrationAnchors(list, anchor.features = features)
+
+MSK20 <- IntegrateData(anchorset = anchors)
+rm(anchors,list,features)
+
+
+DefaultAssay(MSK20) <- "integrated"
+MSK20 <- ScaleData(MSK20, verbose = FALSE)
+MSK20 <- RunPCA(MSK20, npcs = 30, verbose = FALSE)
+# MSK20 <- RunUMAP(MSK20, reduction = "pca", dims = 1:30)
+# MSK20 <- FindNeighbors(MSK20, reduction = "pca", dims = 1:30)
+MSK20 <- FindClusters(MSK20, resolution = 0.3)
+DefaultAssay(MSK20) <- "RNA"
+
+MSK20 <- RunUMAP(MSK20, dims = 1:30)
+MSK20 <- FindNeighbors(MSK20, dims = 1:30)
+MSK20 <- FindClusters(MSK20, resolution = 0.3)
+
+
+####harmony####
+MSK20<- RunHarmony(MSK20,dims.use = 1:25,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE)
+MSK20<- NormalizeData(MSK20, normalization.method = "LogNormalize", 
+              scale.factor = 10000)
+MSK20<- FindVariableFeatures(MSK20, selection.method = "vst", nfeatures = 2000)
+MSK20<- ScaleData(MSK20, features = rownames(MSK20))
+MSK20<- RunPCA(MSK20, npcs = 25)
+MSK20<- RunUMAP(MSK20,  reduction = "harmony", dims = 1:20)
+MSK20<- RunTSNE(MSK20,  reduction = "harmony", dims = 1:20)
+MSK20<- FindNeighbors(MSK20, reduction = "harmony", dims = 1:20)
+# DefaultAssay(MSK20)<-"RNA"
+MSK20<- FindClusters(MSK20, resolution = 0.3)
+
+save(MSK20,file = "MSK20-harmony.Rda")
+DimPlot(MSK20)
+####doublet####
+stdv <- MSK20[["pca"]]@stdev
+sum.stdv <- sum(MSK20[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 21
+
+MSK20 <- RunUMAP(MSK20, dims = 1:min.pc)
+MSK20 <- FindNeighbors(object = MSK20, dims = 1:min.pc)              
+MSK20 <- FindClusters(object = MSK20, resolution = 0.1)
+
+sweep.list <- paramSweep(MSK20, PCs = 1:min.pc)
+sweep.stats <- summarizeSweep(sweep.list)
+bcmvn <- find.pK(sweep.stats)
+
+# Optimal pK is the max of the bomodality coefficent (BCmvn) distribution
+bcmvn.max <- bcmvn[which.max(bcmvn$BCmetric),]
+optimal.pk <- bcmvn.max$pK
+optimal.pk <- as.numeric(levels(optimal.pk))[optimal.pk]
+
+## Homotypic doublet proportion estimate
+annotations <- MSK20@meta.data$seurat_clusters
+homotypic.prop <- modelHomotypic(annotations) 
+nExp.poi <- round(optimal.pk * nrow(MSK20@meta.data))
+nExp.poi.adj <- round(nExp.poi * (1 - homotypic.prop))
+
+
+MSK20 <- doubletFinder(seu = MSK20, 
+                       PCs = 1:min.pc, 
+                       pK = optimal.pk,
+                       nExp = nExp.poi.adj)
+metadata <- MSK20@meta.data
+colnames(metadata)[10] <- "doublet_finder"
+MSK20@meta.data <- metadata
+
+save(MSK20,file = "MSK20-doublet_finder.Rda")
+cowplot::plot_grid(ncol = 1, DimPlot(MSK20, group.by = "doublet_finder"),
+                   VlnPlot(MSK20, features = "nFeature_RNA", group.by = "doublet_finder", pt.size = 0.1))
+ggsave2(paste0(samples[[i]],"_doublet_finder_result.pdf"), path = "results", width = 20, height = 32, units = "cm")
+
+# subset and save
+MSK20 <- subset(MSK20, doublet_finder == "Singlet")
+
+####decontX####
+counts <- MSK20@assays$RNA@counts
+decontX_results <- decontX(counts) 
+MSK20$Contamination =decontX_results$contamination
+MSK20 = MSK20[,MSK20$Contamination < 0.2]
+
+save(MSK20, file = "MSK20_harmony_single_decontX.Rda")
+
+####Further quality control####
+
+MSK20<- NormalizeData(MSK20, normalization.method = "LogNormalize", 
+                      scale.factor = 10000)
+MSK20<- FindVariableFeatures(MSK20, selection.method = "vst", nfeatures = 2000)
+MSK20<- ScaleData(MSK20, features = rownames(MSK20))
+MSK20<- RunPCA(MSK20, npcs = 25)
+MSK20<- RunUMAP(MSK20,  reduction = "pca", dims = 1:20)
+MSK20<- RunTSNE(MSK20,  reduction = "pca", dims = 1:20)
+MSK20<- FindNeighbors(MSK20, reduction = "pca", dims = 1:20)
+# DefaultAssay(MSK20)<-"integrated"
+MSK20<- FindClusters(MSK20, resolution = 0.1)
+MSK20<- FindClusters(MSK20, resolution = 0.2)
+nFeature_lower <- 500
+nFeature_upper <- 4000
+nCount_lower <- 500
+nCount_upper <- 40000
+Mt_lower <- 0
+Mt_upper <- 20
+
+## After filtering
+MSK20 <- subset(MSK20, subset = nFeature_RNA > nFeature_lower & nFeature_RNA < nFeature_upper & 
+                    nCount_RNA > nCount_lower & nCount_RNA < nCount_upper & percent.mt < Mt_upper)
+
+
+
+####maintype####
+pdf("figure/MSK20_Cluster.pdf", height = 8, width = 10)
+DimPlot(MSK20, pt.size = 0.1, reduction = "umap",
+        cols = c(brewer.pal(11,"Paired"),brewer.pal(3,"Set3")))
+dev.off()
+DimPlot(MSK20)
+
+DefaultAssay(MSK20)<-"RNA"
+MSK20<- FindClusters(MSK20, resolution = 0.3)
+MSK20<- FindClusters(MSK20, resolution = 0.5)
+mainmarkers <- c("EPCAM","CHGA","INSM1","PTPRC","CD3E","CD68","S100A8","ACTA2","VWF", "CD34")
+mainmarkers <- c("EPCAM", "SFTPC","SCGB1A1", "KRT7", "INSM1", "NCAM1", "CHGA", "SYP", "ASCL1", "NEUROD1", "POU2F3", "YAP1",
+                 "PTPRC","CD3E","CD68","S100A8","ACTA2","VWF", "CD34")
+MSK20@meta.data$RNA_snn_res.0.1 <- factor(MSK20@meta.data$RNA_snn_res.0.1, levels = c(1,2,4,5,7,9,10,3,6,11,0,8,12))
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(MSK20, 
+                           group.by = "RNA_snn_res.0.1",
+                           reduction = "umap",
+                           cols = c(brewer.pal(12,"Paired"),brewer.pal(11,"Set3"),brewer.pal(3,"Set1")),
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(MSK20, 
+                           features = rev(mainmarkers), 
+                           group.by = "RNA_snn_res.0.1") +
+                     coord_flip() +
+                     scale_colour_gradient(low = "white", high = "#08519C"))
+ggsave2("DotPlot_mainmarkers_simple.pdf", path = "results", width = 16, height = 8)
+DimPlot(MSK20, 
+        group.by = "orig.ident")
+ncol(MSK20)
+# [1] 32766
+ggsave2("Samples-umap.pdf", path = "results", width = 9, height = 8)
+MSK20@meta.data$RNA_snn_res.0.1 <- factor(MSK20@meta.data$RNA_snn_res.0.1, levels = 0:12)
+DimPlot(MSK20,label = T,
+        label.box = T, 
+        group.by = "RNA_snn_res.0.1",cols = c(brewer.pal(12,"Paired"),brewer.pal(11,"Set3")))
+ggsave2("RNA_snn_0.1-umap.pdf", path = "results", width = 9, height = 8)
+
+DotPlot(MSK20, features = rev(mainmarkers), group.by = "RNA_snn_res.0.1",
+        dot.scale = 4) +coord_flip() +
+  scale_colour_gradient(low = "white", high = "#08519C")+theme(
+    panel.border = element_rect(color = "black", size = 0.8))+theme(plot.title = element_text(size = 6, face = "bold"),
+                                                                    legend.title=element_text(angle = 90,hjust = 0.5,vjust=0.5,size=5), 
+                                                                    legend.text=element_text(size=5),
+                                                                    legend.key.height = unit(0.4, 'cm'),
+                                                                    legend.key.width = unit(0.2, 'cm'),
+                                                                    axis.text.x = element_text(size = 6),
+                                                                    axis.text.y = element_text(size = 6),
+                                                                    axis.line.y=element_line(color="white",size=0),
+                                                                    axis.line.x=element_line(color="white",size=0))+
+  scale_y_discrete(position = "right")  
+ggsave2("clusters-dotplot.pdf", path = "results", width =4.5, height = 4)
+MSK20$RNA_snn_res.0.1 <- factor(MSK20$RNA_snn_res.0.1, levels = c(0:12))
+Idents(MSK20) <- "RNA_snn_res.0.1"
+table(Idents(MSK20), MSK20$orig.ident)
+Cellratio <- prop.table(table(MSK20@meta.data$RNA_snn_res.0.1,MSK20@meta.data$orig.ident), margin = 2)
+Cellratio <- as.data.frame(Cellratio)
+colnames(Cellratio) <- c("Clusters","sample","ratio") 
+
+color_cluster=c(brewer.pal(12,"Paired"),brewer.pal(11,"Set3")) 
+
+p<-ggplot(Cellratio,aes(x=sample,y=ratio,fill=Clusters,stratum=Clusters,alluvium=Clusters))+
+  geom_col(width = 0.4,color=NA)+
+  geom_flow(width=0.4,alpha=0.2,knot.pos=0)+ 
+  scale_fill_manual(values=color_cluster)+
+  theme_classic()+
+  theme(panel.border = element_rect(fill=NA,color="black", size=0.5, linetype="solid"))+
+  theme(legend.position = "right",axis.text.x = element_text(angle = 0)) 
+ggsave2("celltype_ratio_clusters.pdf", path = "results", width = 15, height = 5)
+p
+
+abc <- MSK20@meta.data
+abc <- abc %>% mutate(celltype = orig.ident)
+abc$celltype<-as.character(abc$celltype)
+class(abc$celltype)
+abc$celltype[which(abc$RNA_snn_res.0.1==0)]="T cells"
+abc$celltype[which(abc$RNA_snn_res.0.1==1)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==2)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==3)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==4)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==5)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==6)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==7)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==8)]="Mono/macro"
+abc$celltype[which(abc$RNA_snn_res.0.1==9)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==10)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==11)]="SCLC"
+abc$celltype[which(abc$RNA_snn_res.0.1==12)]="Stromal cells"
+
+MSK20@meta.data <- abc
+Idents(MSK20)<-"celltype"
+####Stacked bar plot####
+table(Idents(MSK20), MSK20$orig.ident)
+Cellratio <- prop.table(table(MSK20@meta.data$celltype,MSK20@meta.data$orig.ident), margin = 2)
+Cellratio <- as.data.frame(Cellratio)
+colnames(Cellratio) <- c("celltype","sample","ratio") 
+
+Cellratio$celltype <- factor(Cellratio$celltype, levels = c("SCLC","T cells","Mono/macro","Stromal cells"))
+color_cluster=c("#9FB6CD","salmon", "pink2", "yellowgreen") 
+
+p<-ggplot(Cellratio,aes(x=sample,y=ratio,fill=celltype,stratum=celltype,alluvium=celltype))+
+  geom_col(width = 0.4,color=NA)+
+  geom_flow(width=0.4,alpha=0.2,knot.pos=0)+ 
+  scale_fill_manual(values=color_cluster)+
+  theme_classic()+
+  theme(panel.border = element_rect(fill=NA,color="black", size=0.5, linetype="solid"))+
+  theme(legend.position = "right",axis.text.x = element_text(angle = 0)) 
+ggsave2("celltype_ratio_maintype.pdf", path = "results", width = 15, height = 5)
+p
+
+library(plotrix)
+
+celltype_counts <- table(MSK20$celltype)
+celltype_percent <- round(prop.table(celltype_counts) * 100, 1)
+
+specified_order <- c("SCLC", "T cells", 
+                     "Mono/macro", "Stromal cells")
+
+celltype_counts_ordered <- celltype_counts[specified_order]
+celltype_percent_ordered <- celltype_percent[specified_order]
+
+color_cluster <- c("#9FB6CD","salmon", "pink2", "yellowgreen")
+
+labels <- paste0(names(celltype_counts_ordered), "\n", celltype_percent_ordered, "%")
+
+pie3D(as.numeric(celltype_counts_ordered), 
+      labels = labels,
+      explode = 0.1, 
+      col = color_cluster,
+      theta = pi/6,
+      start = 1.5,
+      height = 0.1, 
+      labelcex = 0.8,
+      main = "Cell Type Proportions")
+
+ggsave("celltype_ratio_bing_no_nk.pdf", path = "results-imm_0", width = 5, height = 5)
+save(MSK20,file = "MSK20_celltypemain.Rda")
+nrow(MSK20@meta.data)
+# [1] 32766
+MSK20$celltype <- factor(MSK20$celltype, levels = c("SCLC","T cells","Mono/macrophages","Stromal cells"))
+DimPlot(MSK20, cols = c("salmon","pink2","yellowgreen","#9FB6CD"))
+ggsave2("celltype.pdf", path = "results", width = 11, height = 8)
+
+####FeaturePlot####
+target_genes <- c("EPCAM","INSM1", "ASCL1", "NEUROD1", "POU2F3",
+                  "CD3E","CD68","S100A8","ACTA2","VWF")
+
+FeaturePlot(
+  MSK20, 
+  features = target_genes,
+  ncol = 5,
+  pt.size = 0.3
+)
+ggsave("10gene_umap_purple.pdf", width = 15, height = 6, dpi = 300) 
+table(MSK20$celltype)
+# Monocyte macrophages                 SCLC        Stromal cells              T cells 
+# 1329                20482                  718                10237 
+MSK20$celltype <- factor(MSK20$celltype, levels = c("SCLC","T cells","Monocyte macrophages","Stromal cells"))
+
+DotPlot(MSK20, features = rev(mainmarkers), group.by = "celltype",
+        dot.scale = 4) +coord_flip() +
+  scale_colour_gradient(low = "white", high = "#08519C")+theme(
+    panel.border = element_rect(color = "black", size = 0.8))+theme(plot.title = element_text(size = 6, face = "bold"),
+                                                                    legend.title=element_text(angle = 90,hjust = 0.5,vjust=0.5,size=5), 
+                                                                    legend.text=element_text(size=5),
+                                                                    legend.key.height = unit(0.4, 'cm'),
+                                                                    legend.key.width = unit(0.2, 'cm'),
+                                                                    axis.text.x = element_text(size = 6,angle = 45,hjust = 1,vjust=1),
+                                                                    axis.text.y = element_text(size = 6),
+                                                                    axis.line.y=element_line(color="white",size=0),
+                                                                    axis.line.x=element_line(color="white",size=0))
+ggsave2("celltype-dotplot.pdf", path = "results", width =3, height = 4.5)
+save(MSK20,file = "MSK20_celltypemain.Rda")
+
+####cluster_0####
+
+Idents(MSK20)<-"RNA_snn_res.0.1"
+
+imm_0<-subset(MSK20,idents = "0")
+
+imm_0<- imm_0 %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- imm_0[["pca"]]@stdev
+sum.stdv <- sum(imm_0[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 12
+
+imm_0<- imm_0 %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+
+for (i in c(1)) {
+  imm_0 <- FindClusters(imm_0, resolution = i)
+  DimPlot(imm_0, reduction = "umap", raster = F) + labs(title = paste0("resolution: ", i))
+  ggsave2(paste0("Dimplot_findclusters_resolution_",i,".pdf"), path = "results-imm_0", width = 15, height = 15, units = "cm")
+}
+
+mainmarkers <- c("PTPRC","CD3E","CD4","CD8A","CD79A","CD68")
+mainmarkers <- c("NKG7","CD3D","CD3E","CD52","CD4","CD8A","PDCD1","LAG3","HAVCR2","GZMB","GZMA","FOXP3","IL7R","LEF1","S1PR1","MKI67")
+mainmarkers <- c("Cd3d","Cd4", "Cd8a", "Ccr7", "Lef1", "Gzmk","Cd44","Nkg7","Gzmb", "Gzma", "Cst7","Cd79a", "Cd79b", "Ms4a1", "Cd22", "Cd19","Cd14",  "S100a8", "S100a9","Cd68","Adgre1","Foxp3","Ctla4")
+
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(imm_0, 
+                           group.by = "RNA_snn_res.1",
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(imm_0, 
+                           features = rev(mainmarkers), 
+                           group.by = "RNA_snn_res.1") +
+                     coord_flip() +
+                     scale_colour_gradient(low = "white", high = "#08519C"))
+ggsave2("DotPlot_mainmarkers_1_.pdf", path = "results-imm_0", width = 16, height = 8)
+
+
+abc <- imm_0@meta.data
+abc <- abc %>% mutate(celltype = orig.ident)
+abc$celltype<-as.character(abc$celltype)
+class(abc$celltype)
+abc$celltype[which(abc$RNA_snn_res.1==0)]="Naive T cells"
+abc$celltype[which(abc$RNA_snn_res.1==1)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==2)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==3)]="Tregs"
+abc$celltype[which(abc$RNA_snn_res.1==4)]="Naive T cells"
+abc$celltype[which(abc$RNA_snn_res.1==5)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==6)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==7)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==8)]="Exhausted T cells"
+abc$celltype[which(abc$RNA_snn_res.1==9)]="NK cells"
+abc$celltype[which(abc$RNA_snn_res.1==10)]="NK cells"
+abc$celltype[which(abc$RNA_snn_res.1==11)]="Naive T cells"
+abc$celltype[which(abc$RNA_snn_res.1==12)]="Exhausted T cells"
+abc$celltype[which(abc$RNA_snn_res.1==13)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==14)]="Exhausted T cells"
+abc$celltype[which(abc$RNA_snn_res.1==15)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==16)]="Effector CD8+ T cells"
+abc$celltype[which(abc$RNA_snn_res.1==17)]="Tregs"
+abc$celltype[which(abc$RNA_snn_res.1==18)]="Proliferative T cells"
+
+
+imm_0@meta.data <- abc
+Idents(imm_0)<-"celltype"
+
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(imm_0, 
+                           group.by = "celltype",
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(imm_0, 
+                           features = rev(mainmarkers), 
+                           group.by = "celltype") +
+                     coord_flip() +
+                     scale_colour_gradient(low = "white", high = "#08519C")+
+                     theme(axis.text.x = element_text(angle = 45)))
+ggsave2("DotPlot_mainmarkers-new.pdf", path = "results-imm_0", width = 16, height = 8)
+Idents(imm_0)<-"celltype"
+
+imm_0.markers <- FindAllMarkers(imm_0,                               
+                                only.pos = TRUE,                               
+                                min.pct = 0.25,                               
+                                logfc.threshold = 0.25)
+
+
+top10 <- imm_0.markers %>% group_by(cluster) %>% top_n(n = 10, wt = avg_log2FC)
+DoHeatmap(imm_0, features = top10$gene)
+
+
+top10_cluster_info <- top10 %>%
+  group_by(cluster) %>%
+  summarize(
+    genes = paste(gene, collapse = ", "),
+    count = n()
+  )
+
+
+DoHeatmap(imm_0, features = top10$gene) +
+  geom_hline(yintercept = c(10.5, 18.5, 28.5, 38.5, 46.5),  
+             color = "white", 
+             linewidth = 1)
+
+ggsave("heatmap-new.png", path = "results-imm_0", 
+       width = 12, height = 10)  
+imm_0$celltype <- factor(imm_0$celltype, levels = c("Effector CD8+ T cells", "Naive T cells", "NK cells", "Exhausted T cells", "Tregs", "Proliferative T cells"))
+DimPlot(imm_0, 
+        group.by = "celltype",
+        label = T,
+        label.box = T,
+        repel = F,
+)
+ggsave("umap-new.pdf", path = "results-imm_0", 
+       width = 20, height = 16,units = "cm")
+mainmarkers <- c("NKG7","CD3D","CD3E","CD52","CD4","CD8A","PDCD1","LAG3","GZMB","GZMA","FOXP3","CCR7","SELL","MKI67")
+DotPlot(imm_0, features = rev(mainmarkers), group.by = "celltype",
+        dot.scale = 4) +coord_flip() +
+  scale_colour_gradient(low = "white", high = "#08519C")+theme(
+    panel.border = element_rect(color = "black", size = 0.8))+theme(plot.title = element_text(size = 6, face = "bold"),
+                                                                    legend.title=element_text(angle = 90,hjust = 0.5,vjust=0.5,size=5), 
+                                                                    legend.text=element_text(size=5),
+                                                                    legend.key.height = unit(0.4, 'cm'),
+                                                                    legend.key.width = unit(0.2, 'cm'),
+                                                                    axis.text.x = element_text(size = 6,angle = 45,hjust = 1,vjust=1),
+                                                                    axis.text.y = element_text(size = 6),
+                                                                    axis.line.y=element_line(color="white",size=0),
+                                                                    axis.line.x=element_line(color="white",size=0))
+ggsave2("clusters-dotplot_NK.pdf", path = "results-imm_0", width =3.5, height = 4)
+save(imm_0,file = "imm_0.Rda")
+ncol(imm_0)
+# [1] 10237
+####no-NK Stacked bar plot####
+
+Idents(imm_0) <- "celltype"
+
+imm_0_no_nk <- subset(imm_0, celltype != "NK cells")
+ncol(imm_0_no_nk)
+# [1] 9280
+table(Idents(imm_0_no_nk), imm_0_no_nk$orig.ident) 
+
+Cellratio <- prop.table(table(imm_0_no_nk@meta.data$celltype, imm_0_no_nk@meta.data$orig.ident), margin = 2) 
+Cellratio <- as.data.frame(Cellratio)
+colnames(Cellratio) <- c("celltype", "sample", "ratio") 
+
+unique(Cellratio$celltype)
+
+Cellratio$celltype <- factor(Cellratio$celltype,
+                             levels = c("Effector CD8+ T cells", 
+                                        "Exhausted T cells", 
+                                        "Naive T cells", 
+                                        "Proliferative T cells", 
+                                        "Tregs")
+)
+
+color_cluster <- c(
+  "Effector CD8+ T cells" = "#1F77B4",  
+  "Exhausted T cells"     = "#FF7F0E",  
+  "Naive T cells"         = "#2CA02C",  
+  "Proliferative T cells" = "#D62728",  
+  "Tregs"                 = "#9467BD"   
+)
+names(color_cluster) <- levels(Cellratio$celltype)
+
+show_col(color_cluster)
+
+p <- ggplot(Cellratio, aes(x = sample, y = ratio, fill = celltype, 
+                           stratum = celltype, alluvium = celltype)) +
+  geom_col(width = 0.4, color = NA) +
+  geom_flow(width = 0.4, alpha = 0.2, knot.pos = 0) + 
+  scale_fill_manual(values = color_cluster) +
+  theme_classic() +
+  theme(panel.border = element_rect(fill = NA, color = "black", size = 0.5, linetype = "solid")) +
+  theme(legend.position = "right", axis.text.x = element_text(angle = 0)) +
+  labs(title = "Cell Type Proportions (Excluding NK cells)")
+
+ggsave("celltype_ratio_no_nk.pdf", path = "results-imm_0", width = 15, height = 5)
+p
+
+table(imm_0_no_nk$celltype)
+
+#### 3D pie no NK####
+library(plotrix)
+
+celltype_counts <- table(imm_0_no_nk$celltype)
+celltype_percent <- round(prop.table(celltype_counts) * 100, 1)
+
+specified_order <- c("Effector CD8+ T cells", 
+                     "Exhausted T cells", 
+                     "Naive T cells", 
+                     "Proliferative T cells", 
+                     "Tregs")
+
+celltype_counts_ordered <- celltype_counts[specified_order]
+celltype_percent_ordered <- celltype_percent[specified_order]
+
+labels <- paste0(names(celltype_counts_ordered), "\n", celltype_percent_ordered, "%")
+
+
+pie3D(as.numeric(celltype_counts_ordered), 
+      labels = labels,
+      explode = 0.1, 
+      col = color_cluster,
+      theta = pi/6,
+      start = 1.5,
+      height = 0.1, 
+      labelcex = 0.8,
+      main = "Cell Type Proportions (Excluding NK cells)")
+
+ggsave("celltype_ratio_bing_no_nk.pdf", path = "results-imm_0", width = 5, height = 5)
+library(dplyr)
+
+
+effector_ratio <- Cellratio %>%
+  filter(celltype == "Effector CD8+ T cells") %>%
+  select(sample, ratio)  
+
+
+print(effector_ratio)
+
+write.csv(effector_ratio, "effector_cd8_ratio.csv", row.names = FALSE)
+
+#####Correlation of epigenetic-related genes with CD8_ratio in SCLC####
+EpiGenes_main <- read.csv(file = "EpiGenes_main.csv")
+effector_ratio <- read.csv(file = "effector_cd8_ratio.csv")
+
+SCLC<-subset(MSK20,idents = "SCLC")
+
+unique_gene<- unique(EpiGenes_main$HGNC_symbol)
+
+expression_data <- GetAssayData(SCLC, assay = "RNA", slot = "data")
+expression_data <- as.matrix(expression_data)
+
+available_genes <- unique_gene[unique_gene %in% rownames(expression_data)]
+
+missing_genes <- unique_gene[!unique_gene %in% rownames(expression_data)]
+
+missing_genes <- c("ACINU", "AICDA", "ANKRD32", "C11orf30", "C14orf169", "C17orf49", "CCDC101", 
+                   "CDK3", "CDY1", "CDY1B", "CDY2A", "CDY2B", "CSRP2BP", "EEF1AKMT3", "EEF1AKMT4", 
+                   "EEF1AKNMT", "HDGFL2", "HNRPL", "HNRPM", "HSFX3", "KDM4E", "KLF18", "PADI1", 
+                   "PRDM7", "RAG2", "RBMY1A1", "RFOX1", "SETD8", "SMEK1", "SMEK2", "SUV420H1", 
+                   "SUV420H2", "TNP2", "USP17L2", "VIRMA")
+
+manual_mapping <- c(
+  "ACINU" = "ACIN1",          # Apoptotic chromatin condensation inducer in the nucleus
+  "AICDA" = "AICDA",          # Activation-induced cytidine deaminase
+  "ANKRD32" = "SLF1",      # Ankyrin repeat domain 32
+  "C11orf30" = "EMSY",        # EMSY transcriptional repressor, BRCA2 interacting
+  "C14orf169" = "RIOX1",  # Chromosome 14 open reading frame 169
+  "C17orf49" = "BACC1",    # Chromosome 17 open reading frame 49 
+  "CCDC101" = "SGF29",        # SAGA complex associated factor 29
+  "CDK3" = "CDK3",            # Cyclin-dependent kinase 3
+  "CDY1" = "CDY1",            # Chromodomain Y-linked 1
+  "CDY1B" = "CDY1B",          # Chromodomain Y-linked 1B
+  "CDY2A" = "CDY2A",          # Chromodomain Y-linked 2A
+  "CDY2B" = "CDY2B",          # Chromodomain Y-linked 2B
+  "CSRP2BP" = "PET117",      # CSRP2 binding protein
+  "EEF1AKMT3" = "EEF1AKMT3",  # EEF1A lysine methyltransferase 3
+  "EEF1AKMT4" = "EEF1AKMT4",  # EEF1A lysine methyltransferase 4
+  "EEF1AKNMT" = "METTL13",  # EEF1A lysine N-methyltransferase
+  "HDGFL2" = "HDGFL2",        # HDGF like 2
+  "HNRPL" = "HNRNPL",         # Heterogeneous nuclear ribonucleoprotein L
+  "HNRPM" = "HNRNPM",         # Heterogeneous nuclear ribonucleoprotein M
+  "HSFX3" = "HSFX3",          # Heat shock transcription factor family, X-linked 3
+  "KDM4E" = "KDM4E",          # Lysine demethylase 4E
+  "KLF18" = "KLF18",          # Kruppel like factor 18
+  "PADI1" = "PADI1",          # Peptidyl arginine deiminase 1
+  "PRDM7" = "PRDM7",          # PR/SET domain 7
+  "RAG2" = "RAG2",            # Recombination activating 2
+  "RBMY1A1" = "RBMY1A1",      # RNA binding motif protein Y-linked family 1 member A1
+  "RFOX1" = "RBPMS",          # RNA binding protein, mRNA processing factor
+  "SETD8" = "KMT5A",          # SET domain containing 8, histone lysine methyltransferase
+  "SMEK1" = "PPP4R3A",        # Protein phosphatase 4 regulatory subunit 3A
+  "SMEK2" = "PPP4R3B",        # Protein phosphatase 4 regulatory subunit 3B
+  "SUV420H1" = "KMT5B",       # Lysine methyltransferase 5B
+  "SUV420H2" = "KMT5C",       # Lysine methyltransferase 5C
+  "TNP2" = "TP2",            # Transition protein 2 271none
+  "USP17L2" = "DUB3",      # Ubiquitin specific peptidase 17 like family member 2 271none
+  "VIRMA" = "VIRMA"           # Vir like m6A methyltransferase associated
+)
+
+unique_gene_updated <- unique_gene
+
+for (i in 1:length(unique_gene_updated)) {
+  if (unique_gene_updated[i] %in% names(manual_mapping)) {
+    unique_gene_updated[i] <- manual_mapping[unique_gene_updated[i]]
+  }
+}
+
+
+replaced_genes <- unique_gene[unique_gene %in% names(manual_mapping)]
+
+expression_data <- GetAssayData(SCLC, assay = "RNA", slot = "data")
+expression_data <- as.matrix(expression_data)
+
+available_genes <- unique_gene_updated[unique_gene_updated %in% rownames(expression_data)]
+
+missing_genes <- unique_gene_updated[!unique_gene_updated %in% rownames(expression_data)]
+
+gene_expression <- t(expression_data[available_genes, ])
+
+sample_expression <- gene_expression %>%
+  as.data.frame() %>%
+  mutate(sample = SCLC$orig.ident) %>%
+  group_by(sample) %>%
+  summarise(across(everything(), mean, na.rm = TRUE)) %>%
+  as.data.frame()
+
+combined_data <- sample_expression %>%
+  inner_join(effector_ratio, by = c("sample" = "sample"))
+
+library(pwr)
+library(openxlsx)
+library(dplyr)
+
+
+correlation_results <- data.frame()
+
+
+for (gene in available_genes) {
+  
+  cor_test <- cor.test(combined_data[[gene]], combined_data$ratio, method = "pearson")
+  
+
+  result_row <- data.frame(
+    Gene = gene,
+    Correlation = cor_test$estimate,
+    Pvalue = cor_test$p.value,
+    Samples_Count = nrow(combined_data)
+  )
+  
+  correlation_results <- rbind(correlation_results, result_row)
+}
+
+correlation_results$FDR <- p.adjust(correlation_results$Pvalue, method = "BH")
+
+alpha <- 0.05
+power_target <- 0.8
+
+correlation_results$Observed_Power <- NA
+
+for (i in 1:nrow(correlation_results)) {
+  r_pearson <- abs(correlation_results$Correlation[i])
+  n_current <- correlation_results$Samples_Count[i]
+  
+  if (!is.na(r_pearson) && r_pearson > 0 && r_pearson < 1) {
+    power_result <- tryCatch({
+      pwr.r.test(n = n_current, r = r_pearson, sig.level = alpha, power = NULL)
+    }, error = function(e) NULL)
+    
+    if (!is.null(power_result)) {
+      correlation_results$Observed_Power[i] <- power_result$power
+    }
+  }
+}
+
+selected_genes <- correlation_results %>%
+  filter(
+    FDR < 0.15,           # FDR < 0.15
+    Correlation < 0,      # Negative correlation
+    Pvalue < 0.05,        # P < 0.05
+    Observed_Power > 0.8  # Power > 0.8
+  ) %>%
+  arrange(FDR)  
+
+wb <- createWorkbook()
+
+addWorksheet(wb, "Selected_Genes")
+writeData(wb, "Selected_Genes", selected_genes)
+
+summary_stats <- data.frame(
+  Parameter = c(
+    "Total_Genes_Analyzed",
+    "Genes_Meeting_Criteria",
+    "FDR_Threshold",
+    "Correlation_Direction",
+    "Pvalue_Threshold",
+    "Power_Threshold",
+    "Date_Analyzed"
+  ),
+  Value = c(
+    nrow(correlation_results),
+    nrow(selected_genes),
+    "< 0.15",
+    "Negative (R < 0)",
+    "< 0.05",
+    "> 0.8",
+    as.character(Sys.Date())
+  )
+)
+
+addWorksheet(wb, "Summary")
+writeData(wb, "Summary", summary_stats)
+
+saveWorkbook(wb, "selected_negative_correlation_genes.xlsx", overwrite = TRUE)
+
+library(ggplot2)
+
+selected_genes <- selected_genes %>%
+  arrange(Correlation)
+
+pdf("negative_correlation_plot.pdf", width = 7.5, height = 6)
+
+ggplot(selected_genes, aes(x = reorder(Gene, -Correlation), y = Correlation)) +
+  geom_bar(stat = "identity", fill = "steelblue", width = 0.6) +  
+  labs(title = "Negative pearson correlation with effector CD8+ T cells ratio",
+       subtitle = paste0("FDR < 0.15, P < 0.05, Power > 0.8 (n = ", nrow(selected_genes), ")"),
+       x = NULL,
+       y = "Pearson Correlation Coefficient") +
+  theme_minimal() +
+  theme(
+    panel.grid.major = element_line(color = "grey90", linewidth = 0.5),
+    panel.grid.minor = element_line(color = "grey95", linewidth = 0.3),
+    plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),  
+    plot.subtitle = element_text(hjust = 0.5, size = 12),  
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 14),  
+    axis.text.y = element_text(size = 14),  
+    axis.title.y = element_text(size = 15)  
+  )
+
+dev.off()
+gene_20 <- unique(selected_genes$Gene)
+length(gene_20)
+# [1] 12
+#### 112 Survival Analysis with FDR and Power Analysis ####
+
+library(survival)
+library(dplyr)
+library(maxstat)
+library(pwr)
+
+TablS1A <- read.csv(file = "112_tableS1A.csv")
+TablS1E <- read.csv(file = "112_tableS1E.csv")
+
+clinical_data <- TablS1A
+colnames(clinical_data) <- make.names(colnames(clinical_data))
+clinical_data$Survial..months. <- as.numeric(as.character(clinical_data$Survial..months.))
+
+expression_data <- TablS1E
+rownames(expression_data) <- expression_data$Protein.Sample.ID
+expression_data$Protein.Sample.ID <- NULL
+expression_data <- as.matrix(expression_data)
+
+tumor_samples <- colnames(expression_data)[grepl("^T", colnames(expression_data))]
+
+results <- data.frame()
+
+for (gene in unique_gene_updated) {
+  
+  if (!gene %in% rownames(expression_data)) next
+  
+  gene_expression <- expression_data[gene, tumor_samples]
+  valid_samples <- names(gene_expression)[!is.na(gene_expression)]
+  gene_expression <- gene_expression[valid_samples]
+  
+  if (length(gene_expression) < 10) next
+  
+  sample_ids <- gsub("^T", "", names(gene_expression))
+  
+  analysis_df <- data.frame(
+    Sample.ID = sample_ids,
+    Expression = as.numeric(gene_expression),
+    stringsAsFactors = FALSE
+  ) %>%
+    merge(clinical_data, by = "Sample.ID", all.x = TRUE) %>%
+    filter(!is.na(Survial..months.), Survial..months. > 0, !is.na(Status.)) %>%
+    mutate(Status.binary = ifelse(tolower(Status.) == "dead", 1, 0),
+           Expression = as.numeric(Expression))
+  
+  if (nrow(analysis_df) < 10) next
+  
+  tryCatch({
+    best_cutoff <- maxstat.test(Surv(Survial..months., Status.binary) ~ Expression,
+                                data = analysis_df,
+                                smethod = "LogRank",
+                                pmethod = "Lau94",
+                                minprop = 0.2,
+                                maxprop = 0.8)
+    
+    cutoff_value <- best_cutoff$estimate
+    analysis_df$Group <- ifelse(analysis_df$Expression > cutoff_value, "High", "Low")
+    
+    if (sum(analysis_df$Group == "High") < 5 || sum(analysis_df$Group == "Low") < 5) next
+    
+    cox_fit <- coxph(Surv(Survial..months., Status.binary) ~ Group, data = analysis_df)
+    hr <- exp(cox_fit$coefficients["GroupLow"])
+    ci <- exp(confint(cox_fit))
+    p_value <- summary(cox_fit)$coefficients["GroupLow", "Pr(>|z|)"]
+    
+    results <- rbind(results, data.frame(
+      Gene = gene,
+      Cutoff = cutoff_value,
+      HR = hr,
+      CI_lower = ci[1],
+      CI_upper = ci[2],
+      P_value = p_value,
+      N_high = sum(analysis_df$Group == "High"),
+      N_low = sum(analysis_df$Group == "Low"),
+      stringsAsFactors = FALSE
+    ))
+    
+  }, error = function(e) {
+    # Fallback to median cutoff
+    median_exp <- median(analysis_df$Expression, na.rm = TRUE)
+    analysis_df$Group <- ifelse(analysis_df$Expression > median_exp, "High", "Low")
+    
+    if (sum(analysis_df$Group == "High") >= 5 && sum(analysis_df$Group == "Low") >= 5) {
+      cox_fit <- coxph(Surv(Survial..months., Status.binary) ~ Group, data = analysis_df)
+      hr <- exp(cox_fit$coefficients["GroupLow"])
+      ci <- exp(confint(cox_fit))
+      p_value <- summary(cox_fit)$coefficients["GroupLow", "Pr(>|z|)"]
+      
+      results <- rbind(results, data.frame(
+        Gene = gene,
+        Cutoff = median_exp,
+        HR = hr,
+        CI_lower = ci[1],
+        CI_upper = ci[2],
+        P_value = p_value,
+        N_high = sum(analysis_df$Group == "High"),
+        N_low = sum(analysis_df$Group == "Low"),
+        stringsAsFactors = FALSE
+      ))
+    }
+  })
+}
+
+# Add FDR correction
+if(nrow(results) > 0) {
+  results$FDR <- p.adjust(results$P_value, method = "BH")
+  
+  # Add Power Analysis
+  alpha <- 0.05
+  power_target <- 0.8
+  results$Observed_Power <- NA
+  results$Required_N <- NA
+  results$Power_Status <- NA
+  
+  for(i in 1:nrow(results)) {
+    if(!is.na(results$HR[i]) && results$HR[i] > 0) {
+      log_hr <- abs(log(results$HR[i]))
+      log_ci_lower <- log(results$CI_lower[i])
+      log_ci_upper <- log(results$CI_upper[i])
+      se <- (log_ci_upper - log_ci_lower) / (2 * 1.96)
+      z_score <- log_hr / se
+      n_events <- (results$N_high[i] + results$N_low[i]) * 0.6
+      
+      if(!is.na(z_score) && z_score > 0 && n_events > 0) {
+        z_alpha <- qnorm(1 - alpha/2)
+        power_calc <- 1 - pnorm(z_alpha - z_score) + pnorm(-z_alpha - z_score)
+        results$Observed_Power[i] <- power_calc
+        results$Power_Status[i] <- ifelse(power_calc >= power_target, "Adequate", "Inadequate")
+        
+        required_z <- qnorm(1 - alpha/2) + qnorm(power_target)
+        required_events <- n_events * (required_z / z_score)^2
+        results$Required_N[i] <- ceiling(required_events / 0.6)
+      }
+    }
+  }
+  
+  results <- results %>% arrange(P_value)
+  
+  write.csv(results, "112_gene_survival_analysis_results_with_FDR_Power.csv", row.names = FALSE)
+  
+  # Filter significant genes (HR < 1, P < 0.05)
+  significant_genes <- results %>% filter(HR < 1, P_value < 0.05)
+  if(nrow(significant_genes) > 0) {
+    write.csv(significant_genes, "112_significant_genes_HR_low_P_0.05_with_FDR_Power.csv", row.names = FALSE)
+  }
+  
+  # Filter by FDR < 0.15 and Power > 0.8
+  selected_genes <- results %>% filter(HR < 1, P_value < 0.05, FDR < 0.15, Observed_Power > 0.8)
+  if(nrow(selected_genes) > 0) {
+    write.csv(selected_genes, "112_selected_genes_FDR0.15_Power0.8.csv", row.names = FALSE)
+  }
+}
+gene_112 <- unique(significant_genes$Gene)
+length(gene_112)
+# [1] 173
+
+####112pro_3_forest_plot####
+library(tidyverse)
+library(ggplot2)
+
+intersection_genes <- intersect(gene_20, gene_112)
+
+gene_3_filtered <- significant_genes %>%
+  filter(Gene %in% c("TAF1", "WDR82", "ZBTB33")) %>%
+  mutate(
+    P_value_formatted = case_when(
+      Gene == "ZBTB33" ~ "0.0106",
+      Gene == "WDR82" ~ "0.0323",
+      Gene == "TAF1" ~ "0.0495"
+    ),
+    # Set HR order: ZBTB33 (smallest HR) on top, TAF1 (largest HR) on bottom
+    y_pos = case_when(
+      Gene == "ZBTB33" ~ 3,  # Top
+      Gene == "WDR82" ~ 2,   # Middle
+      Gene == "TAF1" ~ 1     # Bottom
+    )
+  ) %>%
+  arrange(desc(y_pos))
+
+print("=== Data with correct P value mapping ===")
+print(gene_3_filtered[, c("Gene", "HR", "P_value_formatted", "y_pos")])
+
+green_color <- "#4DAF4A"
+
+ggplot(gene_3_filtered, aes(y = reorder(Gene, y_pos), x = HR)) +
+  geom_errorbarh(aes(xmin = CI_lower, xmax = CI_upper), 
+                 height = 0.15, size = 1.2, alpha = 0.8, color = green_color) +
+  geom_point(size = 8, shape = 21, stroke = 1.5, color = green_color, fill = "white") +
+  geom_text(aes(label = sprintf("%.2f", HR)), 
+            color = "black", size = 3.5, fontface = "bold") +
+  # P value - now correctly positioned above each circle
+  geom_text(aes(label = paste0("p = ", P_value_formatted), 
+                y = as.numeric(reorder(Gene, y_pos)) + 0.25), 
+            color = "black", size = 3, fontface = "italic") +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "black", size = 0.8) +
+  scale_x_log10() +
+  labs(
+    title = "Low expression predicts longer OS",
+    x = "HR with 95% CI", 
+    y = ""
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14, margin = margin(b = 10)),
+    axis.title = element_text(face = "bold", size = 11),
+    axis.text = element_text(size = 10),
+    axis.text.y = element_text(face = "bold", size = 11),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.background = element_rect(fill = "white", colour = "black", size = 1),
+    plot.background = element_rect(fill = "white", colour = NA),
+    legend.position = "none",
+    plot.margin = margin(15, 20, 15, 20)
+  )
+
+ggsave("forest_plot_WDR82_TAF1_ZBTB33.pdf", 
+       width = 5.5, height = 3.5, dpi = 300, bg = "white")
+
+
+#### TAF1-protein-normal-tumor ####
+library(limma)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+target_gene <- "TAF1"
+
+target_expression <- expression_data[target_gene, , drop = FALSE]
+
+sample_ids <- colnames(expression_data)
+group <- ifelse(grepl("^T", sample_ids), "Tumor", "Normal")
+group <- factor(group, levels = c("Normal", "Tumor"))
+
+
+design <- model.matrix(~ group)
+colnames(design) <- c("Intercept", "Tumor_vs_Normal")
+
+fit <- lmFit(target_expression, design)
+fit <- eBayes(fit)
+
+deg_results <- topTable(fit, coef = "Tumor_vs_Normal", number = 1, adjust.method = "BH")
+
+p_value <- deg_results$P.Value
+adj_p_value <- deg_results$adj.P.Val
+
+p_label <- format(p_value, scientific = TRUE, digits = 3)
+p_subtitle <- format(p_value, scientific = TRUE, digits = 3)
+
+expr_df <- data.frame(
+  Sample = colnames(target_expression),
+  Expression = as.numeric(target_expression[1, ]),
+  Group = group
+)
+
+
+summary_stats <- expr_df %>%
+  group_by(Group) %>%
+  summarise(
+    Mean = mean(Expression, na.rm = TRUE),
+    SD = sd(Expression, na.rm = TRUE),
+    N = n()
+  )
+
+
+pdf("TAF1_Expression_Analysis.pdf", width = 5, height = 5)
+
+max_expr <- max(expr_df$Expression, na.rm = TRUE)
+star_y <- max_expr * 1.05
+
+p <- ggplot(expr_df, aes(x = Group, y = Expression, fill = Group)) +
+  geom_boxplot(width = 0.4, alpha = 0.8, outlier.shape = NA, size = 0.3) +
+  geom_jitter(width = 0.15, size = 1.2, alpha = 0.7, color = "black") +
+  
+  annotate("text", x = 1.5, y = star_y, 
+           label = paste0("p = ", p_label), size = 5, fontface = "bold", color = "black") +
+  
+  scale_fill_manual(values = c("Normal" = "#46ACC8", "Tumor" = "#E58601")) +
+  
+  
+  labs(
+    x = NULL,
+    y = "TAF1 protein expression level",
+    fill = NULL
+  ) +
+  
+  
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20, face = "bold", color = "black"),
+    axis.title = element_text(size = 18, face = "bold", color = "black"),
+    axis.text = element_text(size = 16, color = "black"),
+    axis.text.x = element_text(size = 16, face = "bold", color = "black"),
+    
+    legend.position = "none",
+    
+    panel.border = element_rect(color = "black", fill = NA, linewidth = 1)
+  )
+
+print(p)
+dev.off()
+
+
+####112pro MHCI####
+
+library(ggplot2)
+library(ggpubr)
+
+TablS1E <- read.csv(file = "112_tableS1E.csv")
+
+expression_data <- TablS1E
+rownames(expression_data) <- expression_data$Protein.Sample.ID
+expression_data$Protein.Sample.ID <- NULL
+expression_data <- as.matrix(expression_data)
+
+
+tumor_samples <- grep("^T", colnames(expression_data), value = TRUE)
+
+
+taf1_tumor <- as.numeric(expression_data["TAF1", tumor_samples])
+hla_a_tumor <- as.numeric(expression_data["HLA-A", tumor_samples])
+# hla_b_tumor <- as.numeric(expression_data["HLA-B", tumor_samples])
+hla_c_tumor <- as.numeric(expression_data["HLA-C", tumor_samples])
+TAP1_tumor <- as.numeric(expression_data["TAP1", tumor_samples])
+TAP2_tumor <- as.numeric(expression_data["TAP2", tumor_samples])
+TAPBP_tumor <- as.numeric(expression_data["TAPBP", tumor_samples])
+
+df_a <- data.frame(x = taf1_tumor, y = hla_a_tumor)
+# df_b <- data.frame(x = taf1_tumor, y = hla_b_tumor)
+df_c <- data.frame(x = taf1_tumor, y = hla_c_tumor)
+df_1 <- data.frame(x = taf1_tumor, y = TAP1_tumor)
+df_2 <- data.frame(x = taf1_tumor, y = TAP2_tumor)
+df_p <- data.frame(x = taf1_tumor, y = TAPBP_tumor)
+
+p1 <- ggplot(df_a, aes(x, y)) + 
+  xlab("TAF1 Expression") + 
+  ylab("HLA-A Expression") + 
+  geom_point(color = "gray", size = 3) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "#3182BD", 
+              se = TRUE, fill = "#3182BD", alpha = 0.1) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+        axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+        axis.ticks = element_line(size = 1),
+        panel.border = element_rect(color = "black", size = 1.5),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  stat_cor(method = 'pearson', aes(x = x, y = y), 
+           label.x.npc = 0.5, label.y.npc = 0.95,
+           size = 5) +
+  labs(title = paste("TAF1", "vs", "HLA-A"))
+
+ggsave("TAF1_vs_HLA-A_correlation.pdf", p1, 
+       width = 7, height = 7, device = "pdf")
+
+
+p2 <- ggplot(df_c, aes(x, y)) + 
+  xlab("TAF1 expression") + 
+  ylab("HLA-C expression") + 
+  geom_point(color = "gray", size = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "#E41A1C", 
+              se = TRUE, fill = "#E41A1C", alpha = 0.1) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+        axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+        axis.ticks = element_line(size = 1),
+        panel.border = element_rect(color = "black", size = 1.5),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  stat_cor(method = 'pearson', aes(x = x, y = y), 
+           label.x.npc = 0.5, label.y.npc = 0.95,
+           size = 5) +
+  labs(title = paste("TAF1", "vs", "HLA-C"))
+
+ggsave("TAF1_vs_HLA-C_correlation.pdf", p2, 
+       width = 5, height = 5, device = "pdf")
+
+p3 <- ggplot(df_1, aes(x, y)) + 
+  xlab("TAF1 expression") + 
+  ylab("TAP1 expression") + 
+  geom_point(color = "gray", size = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "#E41A1C", 
+              se = TRUE, fill = "#E41A1C", alpha = 0.1) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+        axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+        axis.ticks = element_line(size = 1),
+        panel.border = element_rect(color = "black", size = 1.5),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  stat_cor(method = 'pearson', aes(x = x, y = y), 
+           label.x.npc = 0.5, label.y.npc = 0.95,
+           size = 5) +
+  labs(title = paste("TAF1", "vs", "TAP1"))
+
+ggsave("TAF1_vs_TAP1_correlation_112.pdf", p3, 
+       width = 5, height = 5, device = "pdf")
+
+p4 <- ggplot(df_2, aes(x, y)) + 
+  xlab("TAF1 expression") + 
+  ylab("TAP2 expression") + 
+  geom_point(color = "gray", size = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "#E41A1C", 
+              se = TRUE, fill = "#E41A1C", alpha = 0.1) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+        axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+        axis.ticks = element_line(size = 1),
+        panel.border = element_rect(color = "black", size = 1.5),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  stat_cor(method = 'pearson', aes(x = x, y = y), 
+           label.x.npc = 0.5, label.y.npc = 0.95,
+           size = 5) +
+  labs(title = paste("TAF1", "vs", "TAP2"))
+
+ggsave("TAF1_vs_TAP2_correlation_112.pdf", p4, 
+       width = 5, height = 5, device = "pdf")
+
+p5 <- ggplot(df_p, aes(x, y)) + 
+  xlab("TAF1 expression") + 
+  ylab("TAPBP expression") + 
+  geom_point(color = "gray", size = 2) +
+  geom_smooth(method = "lm", formula = y ~ x, color = "#E41A1C", 
+              se = TRUE, fill = "#E41A1C", alpha = 0.1) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text.x = element_text(size = 12),
+        axis.text.y = element_text(size = 12),
+        axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+        axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+        axis.ticks = element_line(size = 1),
+        panel.border = element_rect(color = "black", size = 1.5),
+        plot.title = element_text(hjust = 0.5, face = "bold")) +
+  stat_cor(method = 'pearson', aes(x = x, y = y), 
+           label.x.npc = 0.5, label.y.npc = 0.95,
+           size = 5) +
+  labs(title = paste("TAF1", "vs", "TAPBP"))
+
+ggsave("TAF1_vs_TAPBP_correlation_112.pdf", p5, 
+       width = 5, height = 5, device = "pdf")
+#### IMPOWER133 Survival Analysis with FDR and Power Analysis ####
+
+library(survival)
+library(dplyr)
+library(pwr)
+
+EpiGenes <- read.csv(file = "EpiGenes_main.csv")
+Table_clinical <- read.csv(file = "IMPOWER133-clinical.csv")
+Table_TPM <- read.csv(file = "IMPOWER133-TPM.csv")
+
+gene_list <- EpiGenes$HGNC_symbol
+available_genes <- unique(Table_TPM$UNNAMED..0)
+
+clinical_temp <- Table_clinical
+colnames(clinical_temp)[26] <- "patient1"
+
+all_results <- data.frame()
+
+for(gene in gene_list) {
+  
+  if(is.na(gene) || gene == "" || gene == "#") next
+  if(!gene %in% available_genes) next
+  
+  gene_data <- subset(Table_TPM, Table_TPM$UNNAMED..0 == gene)
+  if(nrow(gene_data) == 0) next
+  
+  gene_t <- t(gene_data)
+  gene_t <- as.data.frame(gene_t)
+  gene_t$patient <- rownames(gene_t)
+  gene_clean <- gene_t[-(1:2), ]
+  names(gene_clean)[1] <- "expression"
+  gene_clean$patient1 <- gsub("\\.", "-", gene_clean$patient)
+  gene_final <- gene_clean[, c("patient1", "expression")]
+  
+  table_merged <- merge(clinical_temp, gene_final, by = "patient1")
+  table_merged$expression <- as.numeric(as.character(table_merged$expression))
+  
+  table_merged <- table_merged[!is.na(table_merged$expression) & 
+                                 !is.na(table_merged$OS_MONTHS) & 
+                                 !is.na(table_merged$OS_CENSOR), ]
+  
+  if(nrow(table_merged) < 20) next
+  
+  median_val <- median(table_merged$expression, na.rm = TRUE)
+  table_merged$group <- ifelse(table_merged$expression <= median_val, "low", "high")
+  
+  high <- subset(table_merged, group == "high")
+  low <- subset(table_merged, group == "low")
+  
+  if(nrow(high) < 5 || nrow(low) < 5) next
+  
+  atezo_high <- subset(high, ACTARM.2 == "atezo")
+  atezo_high$group_new <- "Atezo >=Median"
+  atezo_low <- subset(low, ACTARM.2 == "atezo")
+  atezo_low$group_new <- "Atezo <Median"
+  
+  placebo_high <- subset(high, ACTARM.2 == "placebo")
+  placebo_high$group_new <- "Placebo >=Median"
+  placebo_low <- subset(low, ACTARM.2 == "placebo")
+  placebo_low$group_new <- "Placebo <Median"
+  
+  result_final <- rbind(atezo_high, atezo_low, placebo_high, placebo_low)
+  
+  # High expression group
+  data_high <- subset(result_final, group_new %in% c("Atezo >=Median", "Placebo >=Median"))
+  if(nrow(data_high) >= 10) {
+    data_high$group_new <- droplevels(factor(data_high$group_new))
+    data_high$group_new <- relevel(data_high$group_new, ref = "Placebo >=Median")
+    
+    cox_high <- tryCatch({
+      coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_high)
+    }, error = function(e) NULL)
+    
+    if(!is.null(cox_high)) {
+      cox_summary_high <- summary(cox_high)
+      result_high <- data.frame(
+        Gene = gene,
+        Group = ">=Median",
+        HR = exp(coef(cox_high)),
+        CI_lower = exp(confint(cox_high))[1],
+        CI_upper = exp(confint(cox_high))[2],
+        P_value = cox_summary_high$coefficients[,"Pr(>|z|)"],
+        Comparison = "Atezo >=Median vs Placebo >=Median",
+        N_samples = nrow(data_high),
+        stringsAsFactors = FALSE
+      )
+      all_results <- rbind(all_results, result_high)
+    }
+  }
+  
+  # Low expression group
+  data_low <- subset(result_final, group_new %in% c("Atezo <Median", "Placebo <Median"))
+  if(nrow(data_low) >= 10) {
+    data_low$group_new <- droplevels(factor(data_low$group_new))
+    data_low$group_new <- relevel(data_low$group_new, ref = "Placebo <Median")
+    
+    cox_low <- tryCatch({
+      coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_low)
+    }, error = function(e) NULL)
+    
+    if(!is.null(cox_low)) {
+      cox_summary_low <- summary(cox_low)
+      result_low <- data.frame(
+        Gene = gene,
+        Group = "<Median",
+        HR = exp(coef(cox_low)),
+        CI_lower = exp(confint(cox_low))[1],
+        CI_upper = exp(confint(cox_low))[2],
+        P_value = cox_summary_low$coefficients[,"Pr(>|z|)"],
+        Comparison = "Atezo <Median vs Placebo <Median",
+        N_samples = nrow(data_low),
+        stringsAsFactors = FALSE
+      )
+      all_results <- rbind(all_results, result_low)
+    }
+  }
+}
+
+# Add FDR and Power analysis
+if(nrow(all_results) > 0) {
+  all_results$FDR <- p.adjust(all_results$P_value, method = "BH")
+  
+  alpha <- 0.05
+  power_target <- 0.8
+  all_results$Observed_Power <- NA
+  all_results$Required_N <- NA
+  all_results$Power_Status <- NA
+  
+  for(i in 1:nrow(all_results)) {
+    if(!is.na(all_results$HR[i]) && all_results$HR[i] > 0) {
+      log_hr <- abs(log(all_results$HR[i]))
+      log_ci_lower <- log(all_results$CI_lower[i])
+      log_ci_upper <- log(all_results$CI_upper[i])
+      se <- (log_ci_upper - log_ci_lower) / (2 * 1.96)
+      z_score <- log_hr / se
+      n_events <- all_results$N_samples[i] * 0.6
+      
+      if(!is.na(z_score) && z_score > 0 && n_events > 0) {
+        z_alpha <- qnorm(1 - alpha/2)
+        power_calc <- 1 - pnorm(z_alpha - z_score) + pnorm(-z_alpha - z_score)
+        all_results$Observed_Power[i] <- power_calc
+        all_results$Power_Status[i] <- ifelse(power_calc >= power_target, "Adequate", "Inadequate")
+        
+        required_z <- qnorm(1 - alpha/2) + qnorm(power_target)
+        required_events <- n_events * (required_z / z_score)^2
+        all_results$Required_N[i] <- ceiling(required_events / 0.6)
+      }
+    }
+  }
+  
+  all_results$Significance <- ifelse(all_results$P_value < 0.001, "***",
+                                     ifelse(all_results$P_value < 0.01, "**",
+                                            ifelse(all_results$P_value < 0.05, "*", "NS")))
+  
+  all_results <- all_results %>% arrange(P_value)
+  
+  write.csv(all_results, "271_all_genes_cox_results_with_FDR_Power.csv", row.names = FALSE)
+  
+  significant_results <- all_results %>% filter(P_value < 0.05)
+  if(nrow(significant_results) > 0) {
+    write.csv(significant_results, "271_significant_genes_cox_results_P0.05.csv", row.names = FALSE)
+  }
+  
+  selected_results <- all_results %>% filter(FDR < 0.15, Observed_Power > 0.8)
+  if(nrow(selected_results) > 0) {
+    write.csv(selected_results, "271_selected_genes_FDR0.15_Power0.8.csv", row.names = FALSE)
+  }
+}
+
+
+
+EpiGenes <- read.csv(file = "EpiGenes_main.csv")
+Table_clinical <- read.csv(file = "IMPOWER133-clinical.csv")
+Table_TPM <- read.csv(file = "IMPOWER133-TPM.csv")
+
+available_genes <- unique(Table_TPM$UNNAMED..0)
+
+clinical_temp <- Table_clinical
+colnames(clinical_temp)[26] <- "patient1"
+
+# Genes from the image filenames
+missing_genes <- c("ABRAXAS1", "ABRAXAS2", "ACIN1", "BABAM2", "ELP1", 
+                   "EMSY", "HASPIN", "HNRNPL", "HNRNPM", "KMT5A", 
+                   "KMT5B", "KMT5C", "NSD2", "NSD3", "PET117", 
+                   "PPP4R3A", "PPP4R3B", "RIOX1", "RIOX2", "SGF29", 
+                   "SLF1", "METTL13")
+
+all_results_new <- data.frame()
+
+for(gene in missing_genes) {
+  
+  if(is.na(gene) || gene == "") next
+  if(!gene %in% available_genes) next
+  
+  gene_data <- subset(Table_TPM, Table_TPM$UNNAMED..0 == gene)
+  if(nrow(gene_data) == 0) next
+  
+  gene_t <- t(gene_data)
+  gene_t <- as.data.frame(gene_t)
+  gene_t$patient <- rownames(gene_t)
+  gene_clean <- gene_t[-(1:2), ]
+  names(gene_clean)[1] <- "expression"
+  gene_clean$patient1 <- gsub("\\.", "-", gene_clean$patient)
+  gene_final <- gene_clean[, c("patient1", "expression")]
+  
+  table_merged <- merge(clinical_temp, gene_final, by = "patient1")
+  table_merged$expression <- as.numeric(as.character(table_merged$expression))
+  
+  table_merged <- table_merged[!is.na(table_merged$expression) & 
+                                 !is.na(table_merged$OS_MONTHS) & 
+                                 !is.na(table_merged$OS_CENSOR), ]
+  
+  if(nrow(table_merged) < 20) next
+  
+  median_val <- median(table_merged$expression, na.rm = TRUE)
+  table_merged$group <- ifelse(table_merged$expression <= median_val, "low", "high")
+  
+  high <- subset(table_merged, group == "high")
+  low <- subset(table_merged, group == "low")
+  
+  if(nrow(high) < 5 || nrow(low) < 5) next
+  
+  atezo_high <- subset(high, ACTARM.2 == "atezo")
+  atezo_high$group_new <- "Atezo >=Median"
+  atezo_low <- subset(low, ACTARM.2 == "atezo")
+  atezo_low$group_new <- "Atezo <Median"
+  
+  placebo_high <- subset(high, ACTARM.2 == "placebo")
+  placebo_high$group_new <- "Placebo >=Median"
+  placebo_low <- subset(low, ACTARM.2 == "placebo")
+  placebo_low$group_new <- "Placebo <Median"
+  
+  result_final <- rbind(atezo_high, atezo_low, placebo_high, placebo_low)
+  
+  # High expression group
+  data_high <- subset(result_final, group_new %in% c("Atezo >=Median", "Placebo >=Median"))
+  if(nrow(data_high) >= 10) {
+    data_high$group_new <- droplevels(factor(data_high$group_new))
+    data_high$group_new <- relevel(data_high$group_new, ref = "Placebo >=Median")
+    
+    cox_high <- tryCatch({
+      coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_high)
+    }, error = function(e) NULL)
+    
+    if(!is.null(cox_high)) {
+      cox_summary_high <- summary(cox_high)
+      result_high <- data.frame(
+        Gene = gene,
+        Group = ">=Median",
+        HR = exp(coef(cox_high)),
+        CI_lower = exp(confint(cox_high))[1],
+        CI_upper = exp(confint(cox_high))[2],
+        P_value = cox_summary_high$coefficients[,"Pr(>|z|)"],
+        Comparison = "Atezo >=Median vs Placebo >=Median",
+        N_samples = nrow(data_high),
+        stringsAsFactors = FALSE
+      )
+      all_results_new <- rbind(all_results_new, result_high)
+    }
+  }
+  
+  # Low expression group
+  data_low <- subset(result_final, group_new %in% c("Atezo <Median", "Placebo <Median"))
+  if(nrow(data_low) >= 10) {
+    data_low$group_new <- droplevels(factor(data_low$group_new))
+    data_low$group_new <- relevel(data_low$group_new, ref = "Placebo <Median")
+    
+    cox_low <- tryCatch({
+      coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_low)
+    }, error = function(e) NULL)
+    
+    if(!is.null(cox_low)) {
+      cox_summary_low <- summary(cox_low)
+      result_low <- data.frame(
+        Gene = gene,
+        Group = "<Median",
+        HR = exp(coef(cox_low)),
+        CI_lower = exp(confint(cox_low))[1],
+        CI_upper = exp(confint(cox_low))[2],
+        P_value = cox_summary_low$coefficients[,"Pr(>|z|)"],
+        Comparison = "Atezo <Median vs Placebo <Median",
+        N_samples = nrow(data_low),
+        stringsAsFactors = FALSE
+      )
+      all_results_new <- rbind(all_results_new, result_low)
+    }
+  }
+}
+
+# Add FDR and Power analysis
+if(nrow(all_results_new) > 0) {
+  all_results_new$FDR <- p.adjust(all_results_new$P_value, method = "BH")
+  
+  alpha <- 0.05
+  power_target <- 0.8
+  all_results_new$Observed_Power <- NA
+  all_results_new$Required_N <- NA
+  all_results_new$Power_Status <- NA
+  
+  for(i in 1:nrow(all_results_new)) {
+    if(!is.na(all_results_new$HR[i]) && all_results_new$HR[i] > 0) {
+      log_hr <- abs(log(all_results_new$HR[i]))
+      log_ci_lower <- log(all_results_new$CI_lower[i])
+      log_ci_upper <- log(all_results_new$CI_upper[i])
+      se <- (log_ci_upper - log_ci_lower) / (2 * 1.96)
+      z_score <- log_hr / se
+      n_events <- all_results_new$N_samples[i] * 0.6
+      
+      if(!is.na(z_score) && z_score > 0 && n_events > 0) {
+        z_alpha <- qnorm(1 - alpha/2)
+        power_calc <- 1 - pnorm(z_alpha - z_score) + pnorm(-z_alpha - z_score)
+        all_results_new$Observed_Power[i] <- power_calc
+        all_results_new$Power_Status[i] <- ifelse(power_calc >= power_target, "Adequate", "Inadequate")
+        
+        required_z <- qnorm(1 - alpha/2) + qnorm(power_target)
+        required_events <- n_events * (required_z / z_score)^2
+        all_results_new$Required_N[i] <- ceiling(required_events / 0.6)
+      }
+    }
+  }
+  
+  all_results_new$Significance <- ifelse(all_results_new$P_value < 0.001, "***",
+                                         ifelse(all_results_new$P_value < 0.01, "**",
+                                                ifelse(all_results_new$P_value < 0.05, "*", "NS")))
+  
+  all_results_new <- all_results_new %>% arrange(P_value)
+  
+  # Save individual results
+  write.csv(all_results_new, "missing_genes_cox_results_with_FDR_Power.csv", row.names = FALSE)
+  
+  # Merge with existing all_results
+  existing_results <- read.csv("271_all_genes_cox_results_with_FDR_Power.csv")
+  combined_results <- rbind(existing_results, all_results_new)
+  combined_results <- combined_results %>% arrange(P_value)
+  
+  write.csv(combined_results, "271_all_genes_cox_results_with_FDR_Power_updated.csv", row.names = FALSE)
+  
+  # Filter significant results
+  significant_results <- combined_results %>% filter(P_value < 0.05)
+  write.csv(significant_results, "271_significant_genes_cox_results_P0.05_updated.csv", row.names = FALSE)
+  
+  # Filter by FDR < 0.15 and Power > 0.8
+  selected_results <- combined_results %>% filter(FDR < 0.15, Observed_Power > 0.8)
+  write.csv(selected_results, "271_selected_genes_FDR0.15_Power0.8_updated.csv", row.names = FALSE)
+}
+# Read the full results (all genes, not just significant ones)
+all_results <- read.csv(file = "271_all_genes_cox_results_with_FDR_Power_updated.csv")
+
+# Filter genes that are:
+# - Non-significant in >=Median group (P_value > 0.05)
+# - Significant in <Median group (P_value < 0.05)
+filtered_genes <- all_results %>%
+  group_by(Gene) %>%
+  filter(any(Group == ">=Median" & P_value > 0.05) & 
+           any(Group == "<Median" & P_value < 0.05)) %>%
+  ungroup()
+
+# View results
+head(filtered_genes)
+
+# Export to new CSV file
+write.csv(filtered_genes, "271_filtered_genes_median_specific.csv", row.names = FALSE)
+
+# Get unique gene list
+gene_271 <- unique(filtered_genes$Gene)
+length(gene_271)
+# [1] 175
+####COX####
+library(survival)
+library(dplyr)
+library(ggplot2)
+
+Table_clinical <- read.csv(file = "IMPOWER133-clinical.csv")
+Table_TPM <- read.csv(file = "IMPOWER133-TPM.csv")
+
+TAF1 <- subset(Table_TPM, Table_TPM$UNNAMED..0 == "TAF1")
+TAF1_t <- t(TAF1)
+TAF1_t <- as.data.frame(TAF1_t)
+TAF1_t$patient <- rownames(TAF1_t)
+TAF1_clean <- TAF1_t[-(1:2), ]
+names(TAF1_clean)[1] <- "TAF1"
+TAF1_clean$patient1 <- gsub("\\.", "-", TAF1_clean$patient)
+TAF1_final <- TAF1_clean[, c("patient1", "TAF1")]
+
+colnames(Table_clinical)[26] <- "patient1"
+table <- merge(Table_clinical, TAF1_final, by = "patient1")
+table$TAF1 <- as.numeric(table$TAF1)
+table$OS_MONTHS <- as.numeric(table$OS_MONTHS)
+table$OS_CENSOR <- as.numeric(table$OS_CENSOR)
+
+median_val <- median(table$TAF1, na.rm = TRUE)
+table$TAF1_group <- ifelse(table$TAF1 <= median_val, "low", "high")
+table$treatment <- factor(table$ACTARM.2, levels = c("placebo", "atezo"))
+
+
+table$age <- table$AGE65
+table$sex <- table$SEX
+table$met_sites <- table$METSITES
+table$brain_meta <- table$MBRAIN
+table$liver_meta <- table$MLIVER
+table$ecog <- table$BECOG
+table$ldh <- table$LDH_ULN
+table$bTMB <- as.numeric(table$bTMB)
+table$pdl1 <- as.factor(table$PDL1_ICscore)
+
+table_low <- subset(table, TAF1_group == "low")
+table_high <- subset(table, TAF1_group == "high")
+
+
+cox_low <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ treatment + age + sex + met_sites + brain_meta + liver_meta + ecog + ldh + bTMB + pdl1, data = table_low)
+res_low <- c(exp(coef(cox_low))["treatmentatezo"], exp(confint(cox_low))["treatmentatezo", 1], exp(confint(cox_low))["treatmentatezo", 2], summary(cox_low)$coefficients["treatmentatezo", "Pr(>|z|)"])
+
+
+cox_high <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ treatment + age + sex + met_sites + brain_meta + liver_meta + ecog + ldh + bTMB + pdl1, data = table_high)
+res_high <- c(exp(coef(cox_high))["treatmentatezo"], exp(confint(cox_high))["treatmentatezo", 1], exp(confint(cox_high))["treatmentatezo", 2], summary(cox_high)$coefficients["treatmentatezo", "Pr(>|z|)"])
+
+forest_data <- data.frame(
+  Subgroup = c("TAF1 Low (Fully adjusted)", "TAF1 High (Fully adjusted)"),
+  HR = c(res_low[1], res_high[1]),
+  CI_lower = c(res_low[2], res_high[2]),
+  CI_upper = c(res_low[3], res_high[3]),
+  P_value = c(res_low[4], res_high[4])
+)
+
+print(forest_data)
+
+# 森林图
+forest_plot <- ggplot(forest_data, aes(x = HR, y = Subgroup)) +
+  geom_vline(xintercept = 1, linetype = "dashed", color = "gray50", linewidth = 0.8) +
+  geom_errorbarh(aes(xmin = CI_lower, xmax = CI_upper), height = 0.2, color = "black", linewidth = 0.8) +
+  geom_point(size = 4, color = "#D62728") +
+  geom_text(aes(x = CI_upper + 0.15, 
+                label = paste0("HR = ", round(HR, 2), " (95% CI: ", round(CI_lower, 2), "-", round(CI_upper, 2), "), P = ", format(P_value, scientific = TRUE, digits = 3))),
+            hjust = 0, size = 3.5) +
+  scale_x_log10(breaks = c(0.35, 0.5, 0.75, 1, 1.5), limits = c(0.3, 1.8)) +
+  labs(title = "Atezolizumab vs Placebo",
+       subtitle = "Fully adjusted for age, sex, METSITES, brain/liver metastasis, ECOG, LDH, bTMB, PD-L1",
+       x = "Hazard Ratio (95% CI)", 
+       y = NULL) +
+  theme_classic() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 9, color = "gray30"),
+    axis.text.y = element_text(size = 12),
+    axis.text.x = element_text(size = 10)
+  )
+
+ggsave("forest_plot_TAF1_stratified.pdf", plot = forest_plot, width = 6, height = 2.8)
+
+
+####271-forest####
+intersection_genes <- intersect(gene_20, gene_271)
+length(intersection_genes)
+# intersection_genes
+# [1] "AIRE"    "APOBEC2" "PRKAG3"  "SMYD1"   "NAT10"   "TEX10"   "TAF1" 
+library(ggplot2)
+library(dplyr)
+
+intersection_genes <- c("AIRE", "APOBEC2", "PRKAG3", "SMYD1", "NAT10", "TEX10", "TAF1")
+
+
+
+low_median <- filtered_genes %>% filter(Group == "<Median")
+high_median <- filtered_genes %>% filter(Group == ">=Median")
+
+low_median_selected <- low_median %>%
+  filter(Gene %in% intersection_genes) %>%
+  mutate(P_value_formatted = sprintf("%.4f", P_value))
+
+high_median_selected <- high_median %>%
+  filter(Gene %in% intersection_genes) %>%
+  mutate(P_value_formatted = sprintf("%.4f", P_value))
+
+create_forest_plot <- function(data, title, bar_color) {
+  
+  forest_data <- data %>%
+    arrange(HR) %>%
+    mutate(
+      Gene = factor(Gene, levels = unique(Gene)),
+      y_pos = as.numeric(factor(Gene, levels = unique(Gene)))
+    )
+  
+  # Get the order of genes from top to bottom after reversing
+  gene_order <- rev(levels(forest_data$Gene))
+  
+  ggplot(forest_data, aes(y = Gene, x = HR)) +
+    geom_errorbarh(aes(xmin = CI_lower, xmax = CI_upper), 
+                   height = 0.15, size = 1.2, alpha = 0.8, color = bar_color) +
+    geom_point(size = 8, shape = 21, stroke = 1.5, color = bar_color, fill = "white") +
+    geom_text(aes(label = sprintf("%.2f", HR)), 
+              color = "black", size = 3.5, fontface = "bold") +
+    geom_text(aes(label = paste0("p = ", P_value_formatted), 
+                  y = Gene, x = HR * 1.3), 
+              color = "black", size = 3, fontface = "italic", hjust = 0) +
+    geom_vline(xintercept = 1, linetype = "dashed", color = "black", size = 0.8) +
+    scale_x_log10() +
+    scale_y_discrete(limits = rev) +
+    labs(
+      title = title,
+      subtitle = "Atezo vs. Placebo",
+      x = "HR with 95% CI", 
+      y = ""
+    ) +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(hjust = 0.5, face = "bold", size = 14, margin = margin(b = 10)),
+      plot.subtitle = element_text(hjust = 0.5, size = 11, color = "gray40", margin = margin(b = 10)),
+      axis.title = element_text(face = "bold", size = 11),
+      axis.text = element_text(size = 10),
+      axis.text.y = element_text(face = "bold", size = 11),
+      panel.grid.major = element_blank(),
+      panel.grid.minor = element_blank(),
+      panel.background = element_rect(fill = "white", colour = "black", size = 1),
+      plot.background = element_rect(fill = "white", colour = NA),
+      legend.position = "none",
+      plot.margin = margin(15, 20, 15, 20)
+    )
+}
+
+if(nrow(low_median_selected) > 0) {
+  p_low <- create_forest_plot(low_median_selected, "Expression < Median", "#377EB8")
+  print(p_low)
+  ggsave("forest_plot_low_median_7genes.pdf", p_low, width = 5, height = 5, dpi = 300, bg = "white")
+}
+
+if(nrow(high_median_selected) > 0) {
+  p_high <- create_forest_plot(high_median_selected, "Expression >= Median", "#999999")
+  print(p_high)
+  ggsave("forest_plot_high_median_7genes.pdf", p_high, width = 5, height = 5, dpi = 300, bg = "white")
+}
+
+
+####venn####
+
+library(VennDiagram)
+library(RColorBrewer)
+library(grid)
+
+my_colors <- brewer.pal(3, "Set2")
+
+
+venn.plot <- venn.diagram(
+  x = list(
+    gene_20, gene_112, gene_271
+  ),
+  filename = NULL,  
+  category.names = c("", "", ""),
+  fill = my_colors,
+  alpha = 0.5,
+  cex = 3.5,
+  cat.cex = 0,
+  cat.dist = 0.05,
+  cat.pos = c(-30, 30, 180),
+  margin = 0.1,
+  main.cex = 0
+)
+
+grid.draw(venn.plot)
+
+pdf("gene_venn_diagram_alternative.pdf", width = 12, height = 12)
+grid.draw(venn.plot)
+dev.off()
+
+
+####TAF1-271-MHCI####
+
+Table_TPM <- read.csv(file = "IMPOWER133-TPM.csv")
+
+selected_genes <- c("TAF1")
+
+hla_genes <- c("HLA-A", "HLA-B", "HLA-C","TAP1","TAP2")
+
+
+all_genes <- unique(c(selected_genes, hla_genes))
+selected_data <- Table_TPM[Table_TPM$UNNAMED..0 %in% all_genes, ]
+
+
+rownames(selected_data) <- selected_data$UNNAMED..0
+selected_data <- selected_data[, -c(1, 2)]  
+data_transposed <- as.data.frame(t(selected_data))
+
+data_transposed <- data_transposed %>% mutate_all(as.numeric)
+head(data_transposed)
+
+for (g in hla_genes) {
+  
+  if (!g %in% colnames(data_transposed)) {
+    warning(paste("Gene", g, "not found in data_transposed, skip."))
+    next
+  }
+  
+  df_tmp <- data.frame(
+    x = data_transposed$TAF1,
+    y = data_transposed[[g]]
+  )
+  
+  p <- ggplot(df_tmp, aes(x, y)) + 
+    xlab("TAF1 expression") + 
+    ylab(paste(g, "expression")) + 
+    geom_point(color = "gray", size = 2) +
+    geom_smooth(method = "lm", formula = y ~ x, color = "#E41A1C", 
+                se = TRUE, fill = "#E41A1C", alpha = 0.1) +
+    theme_bw() +
+    theme(panel.grid = element_blank(),
+          axis.text.x = element_text(size = 12),
+          axis.text.y = element_text(size = 12),
+          axis.title.x = element_text(size = 14, margin = margin(t = 10)),
+          axis.title.y = element_text(size = 14, margin = margin(r = 10)),
+          axis.ticks = element_line(size = 1),
+          panel.border = element_rect(color = "black", size = 1.5),
+          plot.title = element_text(hjust = 0.5, face = "bold")) +
+    stat_cor(method = 'pearson', aes(x = x, y = y), 
+             label.x.npc = 0.5, label.y.npc = 0.95,
+             size = 5) +
+    labs(title = paste("TAF1 vs", g))
+  
+  
+  g_clean <- gsub("-", "_", g)
+  out_file <- paste0("TAF1_vs_", g_clean, "_correlation_271.pdf")
+  
+  ggsave(out_file, p, width = 5, height = 5, device = "pdf")
+}
+
+
+####cellrank####
+library(circlize)
+library(dplyr)
+library(KernSmooth)
+library(RColorBrewer)
+library(plotly)
+library(BiocParallel)
+library(grid)
+# library(ComplexHeatmap)
+library(data.table)
+library(ggplot2)
+library(pheatmap)
+library(reshape2)
+table(imm_0$celltype)
+# Effector CD8+ T cells         Naive T cells              NK cells     Exhausted T cells 
+# 4719                  2605                   957                  1074 
+# Tregs Proliferative T cells 
+# 812                    70 
+cellrank<-c("Effector CD8+ T cells","Naive T cells","Exhausted T cells","Tregs","Proliferative T cells")
+cellrank<-subset(imm_0,idents = cellrank)
+table(cellrank$celltype)
+system.time({fwrite(x = as.data.frame(cellrank[["RNA"]]@counts), row.names=T,file = "cellrank-T-918.csv")})
+
+system.time({
+  fwrite(x = as.data.frame(t(as.matrix(cellrank[["RNA"]]@counts))), 
+         row.names = TRUE, 
+         file = "cellrank_counts_transposed_918.csv")
+})
+####271-TAF1-GSEA####
+
+library(msigdbr)
+library(fgsea)
+library(tibble)
+library(clusterProfiler)
+library(enrichplot)
+library(dplyr)
+library(stringr)
+library(msigdbr)
+library(ggplot2)
+head(Table_TPM)
+
+TAF1_expression <- as.numeric(Table_TPM[Table_TPM$UNNAMED..0 == "TAF1", -c(1:2)])
+
+TAF1_median <- median(TAF1_expression, na.rm = TRUE)
+
+sample_names <- colnames(Table_TPM)[-c(1:2)]  
+group_assignment <- ifelse(TAF1_expression > TAF1_median, "High_TAF1", "Low_TAF1")
+
+
+group_df <- data.frame(Sample = sample_names, Group = group_assignment)
+print(table(group_df$Group))
+# High_TAF1  Low_TAF1 
+# 135       136 
+
+
+
+expression_matrix <- Table_TPM[, -c(1:2)]  
+rownames(expression_matrix) <- Table_TPM$UNNAMED..0
+
+expr_mat <- as.matrix(expression_matrix)
+mode(expr_mat) <- "numeric"
+
+
+design <- model.matrix(~ 0 + factor(group_assignment))
+colnames(design) <- c("High_TAF1", "Low_TAF1")
+
+fit <- lmFit(expr_mat, design)
+contrast.matrix <- makeContrasts(High_vs_Low = High_TAF1 - Low_TAF1, levels = design)
+fit2 <- contrasts.fit(fit, contrast.matrix)
+fit2 <- eBayes(fit2)
+
+de_results <- topTable(fit2, number = Inf, adjust.method = "BH")
+head(de_results)
+
+
+gene_list <- de_results$logFC
+names(gene_list) <- rownames(de_results)
+
+
+gene_list <- sort(gene_list, decreasing = TRUE)
+
+
+term2gene <- hallmark_sets[, c("gs_name", "gene_symbol")]
+
+
+gsea_result <- GSEA(geneList = gene_list,
+                    TERM2GENE = term2gene,
+                    pvalueCutoff = 0.05,
+                    pAdjustMethod = "BH",
+                    seed = 123,
+                    verbose = TRUE)
+
+write.csv(gsea_result@result, "TAF1_GSEA_results_271_medium.csv")
+
+TAF1_GSEA_results <- read.csv("TAF1_GSEA_results_271_medium.csv")
+
+top5_pathways <- TAF1_GSEA_results %>%
+  arrange(p.adjust) %>%
+  head(5)
+
+
+top5_pathways$Description_short <- gsub("HALLMARK_", "", top5_pathways$Description)
+
+
+ggplot(top5_pathways, aes(x = fct_reorder(Description_short, NES), y = NES, 
+                           fill = -log10(p.adjust))) +
+  geom_bar(stat = "identity") +
+  geom_text(aes(label = Description_short, y = -0.1),  
+            hjust = 1, color = "black", size = 3, fontface = "bold") +  
+  scale_fill_gradient(low = "#E1BD6D", high = "#CC4C02", 
+                      name = "-log10(Adj.P)") +
+  coord_flip() +
+  labs(x = "", y = "Normalized Enrichment Score (NES)", 
+       title = "TAF1 HIgh Top 5 Enriched Pathways by Adjusted P-value") +
+  theme_classic() +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "right",
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  scale_y_continuous(expand = expansion(mult = c(0.2, 0.1)))  
+ggsave("TAF1 HIgh Top 5 Enriched Pathways-271.pdf", width = 5.5, height = 3, dpi = 300) 
+
+
+
+####SCLC####
+SCLC<- SCLC %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- SCLC[["pca"]]@stdev
+sum.stdv <- sum(SCLC[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 16
+
+library(harmony)
+SCLC<- SCLC %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+
+for (i in c(0.5)) {
+  SCLC <- FindClusters(SCLC, resolution = i)
+  DimPlot(SCLC, reduction = "umap", raster = F) + labs(title = paste0("resolution: ", i))
+  ggsave2(paste0("Dimplot_findclusters_resolution_",i,".pdf"), path = "results-epi", width = 15, height = 15, units = "cm")
+}
+
+save(SCLC,file = "epi.Rda")
+####umap-SCLC-TAF1####
+table(SCLC$celltype)
+
+FeaturePlot(SCLC, features = "TAF1", order = TRUE) 
+ggsave("TAF1_epi_umap.pdf", width = 5.5, height = 5, dpi = 300)
+
+####SCLC-TAF1-GSEA####
+hallmark_sets <- msigdbr(species = "human", category = "H") %>%
+  dplyr::select(gs_name, entrez_gene, gene_symbol)
+TAF1_expression <- FetchData(epi, vars = "TAF1")[,1]
+
+summary(TAF1_expression)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.000   0.000   0.000   0.131   0.000   2.840
+table(TAF1_expression == median_expression)  
+# FALSE  TRUE 
+# 3266 17216  
+
+expressed_cells <- TAF1_expression > 0
+epi_expressed <- epi[, expressed_cells]
+
+
+expression_values <- TAF1_expression[expressed_cells]
+median_expressed <- median(expression_values)
+epi_expressed$TAF1_group <- ifelse(expression_values > median_expressed, "High", "Low")
+table(epi_expressed$TAF1_group)
+# High  Low 
+# 1632 1634 
+save(epi_expressed,file = "epi_expressed.Rda")
+
+Idents(epi_expressed) <- "TAF1_group"
+de_genes <- FindMarkers(epi_expressed, 
+                        ident.1 = "High", 
+                        ident.2 = "Low",
+                        test.use = "wilcox",  
+                        logfc.threshold = 0.1, 
+                        min.pct = 0.1)        
+
+
+de_genes <- de_genes[order(-de_genes$avg_log2FC), ]
+gene_list <- de_genes$avg_log2FC
+names(gene_list) <- rownames(de_genes)
+
+
+gsea_result <- GSEA(geneList = gene_list,
+                    TERM2GENE = hallmark_sets[, c("gs_name", "gene_symbol")],
+                    pvalueCutoff = 0.05,
+                    pAdjustMethod = "BH",
+                    seed = 123,
+                    verbose = TRUE)
+
+
+library(enrichplot)
+library(clusterProfiler)
+library(dplyr)
+library(stringr)
+
+top5_down <- gsea_result %>%
+  filter(NES < 0) %>%  
+  arrange(p.adjust) %>%  
+  head(5)  
+
+gsea_result_modified <- gsea_result
+gsea_result_modified@result$Description <- str_remove(gsea_result@result$Description, "HALLMARK_")
+
+
+gsea_plot <- gseaplot2(gsea_result_modified, 
+                       geneSetID = pathway_ids,
+                       title = "Top 5 Downregulated Pathways (by Adjusted P-value)",
+                       
+                       color = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"),
+                       base_size = 11,
+                       subplots = 1:3)  
+
+ggsave("top5_downregulated_pathways_TAF1_epi_hallmark.pdf", gsea_plot, width = 5, height = 6, dpi = 300)
+
+
+gsea_plot <- gseaplot2(gsea_result_modified, 
+                       geneSetID = pathway_ids,
+                       title = "Top 5 Downregulated Pathways (by Adjusted P-value)",
+                       pvalue_table = TRUE,
+                       color = c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"),
+                       base_size = 11,
+                       subplots = 1:3)  
+
+
+ggsave("top5_downregulated_pathways_TAF1_epi_hallmark_table.pdf", gsea_plot, width = 15, height = 5, dpi = 300)
+
+write.csv(gsea_result@result, "TAF1_GSEA_results-epi-dayu0-medium.csv")
+
+
+
+####TAF1-271-NMF####
+library(dplyr)
+library(reticulate)
+library(sctransform)
+library(cowplot)
+library(ggplot2)
+library(viridis)
+library(tidyr)
+library(magrittr)
+library(reshape2)
+library(readr)
+library(stringr)
+library(tidyverse)
+library(RColorBrewer)
+library(homologene)
+library(grid)
+library(msigdbr)
+library(fgsea)
+library(tibble)
+library(paletteer)
+library(survival)
+library(survminer)
+library(readxl)
+library(openxlsx)
+
+Table_clinical <- read.csv(file = "IMPOWER133-clinical.csv")
+Table_TPM <- read.csv(file = "IMPOWER133-TPM.csv")
+
+TAF1 <- subset(Table_TPM,Table_TPM$UNNAMED..0=="TAF1")
+TAF11 <- t(TAF1)
+TAF11 <- as.data.frame(TAF11)
+TAF11$patient <- rownames(TAF11)
+TAF12 <- TAF11[-(1:2),]
+
+names(TAF12)[1] <- "TAF1"
+
+TAF12$patient1 <- gsub("\\.", "-", TAF12$patient)
+TAF13 <- TAF12[-2]
+names(Table_clinical)[26] <- "patient1"
+table<-merge(Table_clinical,TAF13,by = "patient1")
+
+table <- as.data.frame(table)
+table$TAF1 <- as.numeric(table$TAF1)
+###total
+median <- median(table$TAF1)
+table$group <- ifelse(table$TAF1 <= median, "low","high")
+high <- subset(table, table$group == "high")
+low <- subset(table, table$group == "low")
+atezo_high <- subset(high, high$ACTARM.2 == "atezo")
+atezo_high$group_new <- "Atezo ≥Median"
+atezo_low <- subset(low, low$ACTARM.2 == "atezo")
+atezo_low$group_new <- "Atezo <Median" 
+
+placebo_high <- subset(high, high$ACTARM.2 == "placebo")
+placebo_high$group_new <- "Placebo ≥Median"
+placebo_low <- subset(low, low$ACTARM.2 == "placebo")
+placebo_low$group_new <- "Placebo <Median"
+result1 <- rbind(atezo_high, atezo_low, placebo_high, placebo_low)
+
+
+####NMF123###
+NMF123 <- subset(result1, result1$IMp133_NMFsubsets %in% c("NMF1/SCLC-N","NMF2/SCLC-A","NMF3/SCLC-I-NE"))
+NMF123$group_new <- as.factor(NMF123$group_new)
+levels(NMF123$group_new)
+surv_obj <- Surv(NMF123$OS_MONTHS, NMF123$OS_CENSOR==1)
+
+fit <- survfit(surv_obj ~ group_new, data = NMF123)
+NMF123$group_new <- factor(NMF123$group_new,
+                           levels = c("Atezo <Median", "Atezo ≥Median",
+                                      "Placebo <Median", "Placebo ≥Median"))
+
+plot <- ggsurvplot(fit, data = NMF123,
+                   title = "NMF123",
+                   break.time.by = 6,        
+                   xlim = c(0, 36),         
+                   xlab = "Time (Months)",
+                   linetype = c(1,2,1,2),  
+                   palette = c("#78c679","#78c679","#FE9929","#FE9929"),
+                   legend.labs = levels(NMF123$group_new),
+                   legend.title = "Groups")
+
+
+
+print(table(NMF123$group_new))
+
+
+NMF123$group_new <- factor(NMF123$group_new)
+
+
+
+plot <- ggsurvplot(fit, data = NMF123,
+                   title = "NMF123",
+                   break.time.by = 6,
+                   xlim = c(0, 36),
+                   xlab = "Time (Months)",
+                   legend.labs = levels(NMF123$group_new),
+                   legend.title = "Groups",
+                   risk.table = TRUE,
+                   risk.table.height = 0.25,
+                   risk.table.y.text = FALSE)
+
+
+
+library(survival)
+library(broom)
+
+
+data_subset <- subset(NMF123, group_new %in% c("Atezo ≥Median", "Placebo ≥Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo ≥Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+#
+h_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(h_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+data_subset <- subset(NMF123, group_new %in% c("Atezo <Median", "Placebo <Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo <Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+##
+l_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(l_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+####NMF4###
+
+result1$IMp133_NMFsubsets <- as.factor(result1$IMp133_NMFsubsets)
+levels(result1$IMp133_NMFsubsets)
+
+NMF4 <- subset(result1, result1$IMp133_NMFsubsets %in% c("NMF4/SCLC-I-nNE"))
+NMF4$group_new <- as.factor(NMF4$group_new)
+levels(NMF4$group_new)
+surv_obj <- Surv(NMF4$OS_MONTHS, NMF4$OS_CENSOR==1)
+
+fit <- survfit(surv_obj ~ group_new, data = NMF4)
+NMF4$group_new <- factor(NMF4$group_new,
+                         levels = c("Atezo <Median", "Atezo ≥Median",
+                                    "Placebo <Median", "Placebo ≥Median"))
+
+plot <- ggsurvplot(fit, data = NMF4,
+                   title = "NMF4",
+                   break.time.by = 6,        
+                   xlim = c(0, 36),         
+                   xlab = "Time (Months)",
+                   linetype = c(1,2,1,2),  
+                   palette = c("#78c679","#78c679","#FE9929","#FE9929"),
+                   legend.labs = levels(NMF4$group_new),
+                   legend.title = "Groups")
+
+
+print(table(NMF4$group_new))
+
+
+NMF4$group_new <- factor(NMF4$group_new)
+
+
+plot <- ggsurvplot(fit, data = NMF4,
+                   title = "NMF4",
+                   break.time.by = 6,
+                   xlim = c(0, 36),
+                   xlab = "Time (Months)",
+                   legend.labs = levels(NMF4$group_new),
+                   legend.title = "Groups",
+                   risk.table = TRUE,
+                   risk.table.height = 0.25,
+                   risk.table.y.text = FALSE)
+
+
+data_subset <- subset(NMF4, group_new %in% c("Atezo ≥Median", "Placebo ≥Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo ≥Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+#
+h_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(h_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+data_subset <- subset(NMF4, group_new %in% c("Atezo <Median", "Placebo <Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo <Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+##
+l_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(l_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+
+####NMF1###
+NMF1 <- subset(result1, result1$IMp133_NMFsubsets %in% c("NMF1/SCLC-N"))
+NMF1$group_new <- as.factor(NMF1$group_new)
+levels(NMF1$group_new)
+surv_obj <- Surv(NMF1$OS_MONTHS, NMF1$OS_CENSOR==1)
+
+fit <- survfit(surv_obj ~ group_new, data = NMF1)
+NMF1$group_new <- factor(NMF1$group_new,
+                         levels = c("Atezo <Median", "Atezo ≥Median",
+                                    "Placebo <Median", "Placebo ≥Median"))
+
+plot <- ggsurvplot(fit, data = NMF1,
+                   title = "NMF1",
+                   break.time.by = 6,       
+                   xlim = c(0, 36),        
+                   xlab = "Time (Months)",
+                   linetype = c(1,2,1,2), 
+                   palette = c("#78c679","#78c679","#FE9929","#FE9929"),
+                   legend.labs = levels(NMF1$group_new),
+                   legend.title = "Groups")
+
+
+data_subset <- subset(NMF1, group_new %in% c("Atezo ≥Median", "Placebo ≥Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo ≥Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+#
+h_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(h_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+
+
+data_subset <- subset(NMF1, group_new %in% c("Atezo <Median", "Placebo <Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo <Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+##
+l_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(l_fit, 
+           data = data_subset,
+           break.time.by = 6,        
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+
+####NMF23###
+NMF23 <- subset(result1, result1$IMp133_NMFsubsets %in% c("NMF2/SCLC-A","NMF3/SCLC-I-NE"))
+NMF23$group_new <- as.factor(NMF23$group_new)
+levels(NMF23$group_new)
+surv_obj <- Surv(NMF23$OS_MONTHS, NMF23$OS_CENSOR==1)
+
+fit <- survfit(surv_obj ~ group_new, data = NMF23)
+NMF23$group_new <- factor(NMF23$group_new,
+                          levels = c("Atezo <Median", "Atezo ≥Median",
+                                     "Placebo <Median", "Placebo ≥Median"))
+
+plot <- ggsurvplot(fit, data = NMF23,
+                   title = "NMF23",
+                   break.time.by = 6,        
+                   xlim = c(0, 36),         
+                   xlab = "Time (Months)",
+                   linetype = c(1,2,1,2),  
+                   palette = c("#78c679","#78c679","#FE9929","#FE9929"),
+                   legend.labs = levels(NMF23$group_new),
+                   legend.title = "Groups")
+
+
+data_subset <- subset(NMF23, group_new %in% c("Atezo ≥Median", "Placebo ≥Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo ≥Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+#
+h_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(h_fit, 
+           data = data_subset,
+           break.time.by = 6,       
+           xlim = c(0, 36),         
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+
+data_subset <- subset(NMF23, group_new %in% c("Atezo <Median", "Placebo <Median"))
+data_subset$group_new <- droplevels(data_subset$group_new)  
+data_subset$group_new <- relevel(data_subset$group_new, ref = "Placebo <Median")  
+
+
+cox_model <- coxph(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+
+l_fit <- survfit(Surv(OS_MONTHS, OS_CENSOR) ~ group_new, data = data_subset)
+ggsurvplot(l_fit, 
+           data = data_subset,
+           break.time.by = 6,       
+           xlim = c(0, 36),        
+           xlab = "Time (Months)",   
+           risk.table = TRUE)
+
+
+results <- data.frame(
+  HR = exp(coef(cox_model)),
+  CI_lower = exp(confint(cox_model))[1],
+  CI_upper = exp(confint(cox_model))[2],
+  P_value = summary(cox_model)$coefficients[,"Pr(>|z|)"]
+)
+
+print(results)
+
+
+table(result1$IMp133_NMFsubsets)
+
+result1 <- list()
+df_1 <- c(85,88,39,59)  
+names(df_1) <- c("NMF1/SCLC-N","NMF2/SCLC-A","NMF3/SCLC-I-NE","NMF4/SCLC-I-nNE")  
+
+
+group_colors <- c("#2ca02c", "#ff7f0e", "#d62728","#1f77b4")
+
+
+df <- data.frame(
+  group = names(df_1),
+  value = df_1,
+  color = group_colors
+)
+
+
+df$fraction <- df$value / sum(df$value)
+df$ymax <- cumsum(df$fraction)
+df$ymin <- c(0, head(df$ymax, n = -1))
+df$angle <- 90 - 360 * (df$ymin + df$fraction / 2) / 1  
+
+
+gap_size <- 0.02  
+df$ymax <- df$ymax - (seq_len(nrow(df)) - 1) * gap_size
+df$ymin <- df$ymin - (seq_len(nrow(df)) - 1) * gap_size
+df$ymin[df$ymin < 0] <- 0
+
+
+ggplot(df, aes(ymax = ymax, ymin = ymin, xmax = 4, xmin = 3, fill = group)) +
+  geom_rect(color = "white") +
+  scale_fill_manual(values = group_colors) +
+  coord_polar(theta = "y") +
+  xlim(c(0, 4))+
+  theme_void() 
+####39####
+
+library(Seurat)
+rm(seu_obj)
+packageVersion("Seurat")
+
+
+library(Matrix)
+library(dplyr)
+
+library(cowplot)
+
+setwd("E:/39例/Matrix(1)")
+
+
+file_list <- c("P30_T", "P28_T", "P1_T", "P24_T", "P31_T", "P10_T", "P27_T", 
+               "P16_T", "P13_T", "P21_T", "P15_T", "P9_T", "P7_T", "P32_T", 
+               "P6_T", "P26_T", "P8_T", "P34_T", "P5_T", "P23_T", "P3_T", 
+               "P4_T", "P33_T", "P12_T", "P20_T", "P2_T", "P11_T", "P17_T", 
+               "P18_T", "P19_T", "P22_T", "P25_T", "P29_T", "P35_T", "P36_T1", 
+               "P42_T", "P43_T", "P44_T", "P45_T")
+
+
+read_sample_data <- function(sample_name) {
+  
+  data_dir <- file.path("E:/39例/Matrix(1)", sample_name)
+  
+  
+  if (!dir.exists(data_dir)) {
+    stop(paste("Directory does not exist:", data_dir))
+  }
+  
+  
+  data <- Read10X(data.dir = data_dir)
+  
+  seurat_obj <- CreateSeuratObject(counts = data, 
+                                   project = sample_name,
+                                   min.cells = 3, 
+                                   min.features = 200)
+  
+  return(seurat_obj)
+}
+
+
+seurat_list <- list()
+
+for (sample in file_list) {
+  cat("Reading sample:", sample, "\n")
+  tryCatch({
+    seurat_list[[sample]] <- read_sample_data(sample)
+    cat("Successfully read", sample, "\n")
+  }, error = function(e) {
+    cat("Error reading", sample, ":", e$message, "\n")
+  })
+}
+
+
+seu_obj <- merge(seurat_list[[1]], y = seurat_list[-1], 
+                 add.cell.ids = names(seurat_list))
+
+
+seu_obj <- PercentageFeatureSet(seu_obj, pattern = "^MT-", col.name = "Mt")  
+seu_obj <- PercentageFeatureSet(seu_obj, pattern = "^HB[AB]-", col.name = "Hb")  
+seu_obj <- PercentageFeatureSet(seu_obj, pattern = "^RP[SL]", col.name = "Rp")  
+
+
+qcparams <- c("nFeature_RNA", "nCount_RNA", "Mt", "Hb", "Rp")
+
+
+for (i in seq_along(qcparams)){
+  print(VlnPlot(object = seu_obj, features = qcparams[i], group.by = "orig.ident", pt.size = 0))
+} 
+
+
+for (i in seq_along(qcparams)){
+  print(RidgePlot(object = seu_obj, features = qcparams[i], group.by = "orig.ident"))
+} 
+
+
+RidgePlot(seu_obj, features = c("nFeature_RNA", "nCount_RNA", "Mt","Hb", "Rp"), group.by = "orig.ident")
+ggsave2("QC_combined.pdf", path = "results", width = 30, height = 40, units = "cm")
+
+
+seu_obj_unfiltered <- seu_obj
+
+
+nFeature_lower <- 200    
+nFeature_upper <- Inf    
+nCount_lower <- 600      
+nCount_upper <- Inf     
+Mt_lower <- 0            
+Mt_upper <- 20           
+Hb_lower <- 0            
+Hb_upper <- 100          
+
+
+seu_obj <- subset(seu_obj_unfiltered, 
+                  subset = nFeature_RNA >= nFeature_lower & 
+                    nCount_RNA >= nCount_lower & 
+                    Mt <= Mt_upper & 
+                    Hb <= Hb_upper)
+
+table(seu_obj_unfiltered$orig.ident)
+# P1_T  P10_T  P11_T  P12_T  P13_T  P15_T  P16_T  P17_T  P18_T  P19_T   P2_T  P20_T  P21_T 
+# 2191  11746   8553  11442  10359  11350   8995   8672   8680   9487   9300  14493  11606 
+# P22_T  P23_T  P24_T  P25_T  P26_T  P27_T  P28_T  P29_T   P3_T  P30_T  P31_T  P32_T  P33_T 
+# 18000  11907   9925   5673   2727  11479   6662  16115  13987   8309   6168   8351  10788 
+# P34_T  P35_T P36_T1   P4_T  P42_T  P43_T  P44_T  P45_T   P5_T   P6_T   P7_T   P8_T   P9_T 
+# 8805  16651   7407   8650  10695   6789   9653   9931   7410   6922   8273   6741   5030 
+table(seu_obj$orig.ident)
+# P1_T  P10_T  P11_T  P12_T  P13_T  P15_T  P16_T  P17_T  P18_T  P19_T   P2_T  P20_T  P21_T 
+# 2051  11152   6903   9976   8254   7381   7176   8529   8100   9304   8958  11517  11096 
+# P22_T  P23_T  P24_T  P25_T  P26_T  P27_T  P28_T  P29_T   P3_T  P30_T  P31_T  P32_T  P33_T 
+# 11877   8792   8641   5254   2505   8799   5937  14723  12619   6080   4910   7940  10678 
+# P34_T  P35_T P36_T1   P4_T  P42_T  P43_T  P44_T  P45_T   P5_T   P6_T   P7_T   P8_T   P9_T 
+# 7674  14117   5585   6854   9492   6636   8437   9846   7325   6156   7718   5746   3472 
+
+save(seu_obj_unfiltered, file = "Before_filtering.Rda")
+rm(seurat_list)
+
+
+####NO-doublet####
+
+devtools::install_github('chris-mcginnis-ucsf/DoubletFinder')
+library(DoubletFinder)
+library(readxl)
+
+
+seu_split <- SplitObject(seu_obj, split.by = "orig.ident") 
+
+
+for (i in 1:length(seu_split)) {
+  cat("Processing sample:", names(seu_split)[i], "\n")
+  
+  seu_sample <- NormalizeData(seu_split[[i]])
+  seu_sample <- FindVariableFeatures(seu_sample)
+  seu_sample <- ScaleData(seu_sample)
+  seu_sample <- RunPCA(seu_sample)
+  
+  
+  stdv <- seu_sample[["pca"]]@stdev
+  sum.stdv <- sum(seu_sample[["pca"]]@stdev)
+  percent.stdv <- (stdv / sum.stdv) * 100
+  cumulative <- cumsum(percent.stdv)
+  co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+  co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                       percent.stdv[2:length(percent.stdv)]) > 0.1), 
+              decreasing = T)[1] + 1
+  min.pc <- min(co1, co2, na.rm = TRUE)  
+  cat("Optimal PCs for", names(seu_split)[i], ":", min.pc, "\n")
+  
+  seu_sample <- RunUMAP(seu_sample, dims = 1:min.pc)
+  seu_sample <- FindNeighbors(object = seu_sample, dims = 1:min.pc)              
+  seu_sample <- FindClusters(object = seu_sample, resolution = 0.1)
+  
+  # pK Identification (no ground-truth)
+  sweep.list <- paramSweep(seu_sample, PCs = 1:min.pc)
+  sweep.stats <- summarizeSweep(sweep.list)
+  bcmvn <- find.pK(sweep.stats)
+  
+  # Optimal pK is the max of the bomodality coefficent (BCmvn) distribution
+  bcmvn.max <- bcmvn[which.max(bcmvn$BCmetric),]
+  optimal.pk <- bcmvn.max$pK
+  optimal.pk <- as.numeric(levels(optimal.pk))[optimal.pk]
+  cat("Optimal pK for", names(seu_split)[i], ":", optimal.pk, "\n")
+  
+  ## Homotypic doublet proportion estimate
+  annotations <- seu_sample@meta.data$seurat_clusters
+  homotypic.prop <- modelHomotypic(annotations) 
+  nExp.poi <- round(optimal.pk * nrow(seu_sample@meta.data))
+  nExp.poi.adj <- round(nExp.poi * (1 - homotypic.prop))
+  cat("Expected doublets for", names(seu_split)[i], ":", nExp.poi.adj, "\n")
+  
+  # run DoubletFinder
+  seu_sample <- doubletFinder(seu = seu_sample, 
+                              PCs = 1:min.pc, 
+                              pK = optimal.pk,
+                              nExp = nExp.poi.adj)
+  
+ 
+  metadata <- seu_sample@meta.data
+  
+  df_col <- grep("DF.classifications", colnames(metadata), value = TRUE)
+  colnames(metadata)[colnames(metadata) == df_col] <- "doublet_finder"
+  seu_sample@meta.data <- metadata
+  
+
+  p1 <- DimPlot(seu_sample, group.by = "doublet_finder")
+  p2 <- VlnPlot(seu_sample, features = "nFeature_RNA", group.by = "doublet_finder", pt.size = 0.1)
+  
+  combined_plot <- cowplot::plot_grid(ncol = 1, p1, p2)
+  ggsave(paste0(names(seu_split)[i], "_doublet_finder_result.pdf"), 
+         plot = combined_plot, path = "results", width = 20, height = 32, units = "cm")
+  
+  
+  doublet_stats <- table(seu_sample@meta.data$doublet_finder)
+  cat("Doublet statistics for", names(seu_split)[i], ":\n")
+  print(doublet_stats)
+  
+  # subset and save singlets
+  seu_singlets <- subset(seu_sample, doublet_finder == "Singlet")
+  seu_split[[i]] <- seu_singlets
+  
+  
+  remove(seu_singlets, seu_sample)
+  gc()
+  
+  cat("Completed sample:", names(seu_split)[i], "\n\n")
+}
+
+
+if (length(seu_split) > 0) {
+  
+  seu_singlets <- seu_split[[1]]
+  if (length(seu_split) > 1) {
+    for (j in 2:length(seu_split)) {
+      seu_singlets <- merge(seu_singlets, y = seu_split[[j]])
+    }
+  }}
+
+table(seu_singlets$orig.ident)
+# P1_T  P10_T  P11_T  P12_T  P13_T  P15_T  P16_T  P17_T  P18_T  P19_T   P2_T  P20_T  P21_T 
+# 1766  10032   6082   9442   8012   7279   6860   7827   8028   7721   8459  10014  10956 
+# P22_T  P23_T  P24_T  P25_T  P26_T  P27_T  P28_T  P29_T   P3_T  P30_T  P31_T  P32_T  P33_T 
+# 11567   7629   6957   4107   1931   7164   5015  14510  12362   6058   4890   7774  10506 
+# P34_T  P35_T P36_T1   P4_T  P42_T  P43_T  P44_T  P45_T   P5_T   P6_T   P7_T   P8_T   P9_T 
+# 6511  11271   4179   6700   8488   6546   7604   7951   5865   5830   7614   5678   3421 
+
+save(seu_singlets, file = "seu_singlets.Rda")
+
+
+library(decontX)
+
+
+seu_split <- SplitObject(seu_singlets, split.by = "orig.ident") 
+
+
+for (i in 1:length(seu_split)) {
+  counts <- seu_split[[i]]@assays$RNA@counts
+  decontX_results <- decontX(counts)
+  seu_split[[i]]$Contamination <- decontX_results$contamination
+  seu_split[[i]] <- seu_split[[i]][, seu_split[[i]]$Contamination < 0.2]
+}
+rm(seu_singlets)
+
+seu_singlets_decontX <- seu_split[[1]]
+if (length(seu_split) > 1) {
+  for (j in 2:length(seu_split)) {
+    seu_singlets_decontX <- merge(seu_singlets_decontX, y = seu_split[[j]])
+  }
+}
+
+
+save(seu_singlets_decontX, file = "seu_singlets_decontX.Rda")
+
+
+table(seu_singlets_decontX$orig.ident)
+# P1_T  P10_T  P11_T  P12_T  P13_T  P15_T  P16_T  P17_T  P18_T  P19_T   P2_T  P20_T  P21_T 
+# 1677   9889   5912   7964   7803   7158   6746   7359   7564   7221   7182   9975  10680 
+# P22_T  P23_T  P24_T  P25_T  P26_T  P27_T  P28_T  P29_T   P3_T  P30_T  P31_T  P32_T  P33_T 
+# 11183   6320   6807   3940   1796   6987   4852  10727   9964   5848   4701   7292   9189 
+# P34_T  P35_T P36_T1   P4_T  P42_T  P43_T  P44_T  P45_T   P5_T   P6_T   P7_T   P8_T   P9_T 
+# 6396  10189   3875   5038   8361   5206   7416   6891   5208   4521   6451   5353   3201
+
+
+
+seu_obj<-seu_singlets_decontX
+rm(seu_singlets_decontX)
+
+
+seu_obj <- NormalizeData(seu_obj)
+gc()
+
+seu_obj <- FindVariableFeatures(seu_obj)
+gc()
+
+seu_obj <- ScaleData(seu_obj)
+gc()
+
+seu_obj <- RunPCA(seu_obj)
+gc()
+
+
+stdv <- seu_obj[["pca"]]@stdev
+sum.stdv <- sum(seu_obj[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 21
+library(harmony)
+
+seu_obj<- seu_obj %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+save(seu_obj, file = "seu_singlets_decontX_harmony.Rda")
+library(tidyverse)
+library(viridis)
+library(ggplot2)
+library(cowplot)
+library(RColorBrewer)
+library(readxl)
+library(harmony)
+library(decontX)
+library(ggalluvial)
+library(tidydr)
+library(scales)
+library(dplyr)
+library(openxlsx)
+library(tidyr)
+for (i in c(0.5)) {
+  seu_obj <- FindClusters(seu_obj, resolution = i)
+  DimPlot(seu_obj, reduction = "umap", raster = F) + labs(title = paste0("resolution: ", i))
+  ggsave2(paste0("Dimplot_findclusters_resolution_",i,".pdf"), path = "results", width = 15, height = 15, units = "cm")
+}
+
+seu_obj@meta.data$RNA_snn_res.0.2 <- factor(seu_obj@meta.data$RNA_snn_res.0.2, levels = 0:17)
+mainmarkers <- c("EPCAM","SFTPC","SCGB1A1","KRT17","PIFO","AGER","CHGA","INSM1",
+                 "PTPRC","CD3E","CD4","CD8A","S100A9","CD68","CD79A","CD19","CD38","IRF4","PECAM1", "CD34","CDH5","ACTA2","COL1A1","COL1A2")
+
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(seu_obj, 
+                           group.by = "RNA_snn_res.0.2",
+                           reduction = "umap",
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(seu_obj, 
+                           features = rev(mainmarkers), 
+                           group.by = "RNA_snn_res.0.2") +
+                     coord_flip() +
+                     scale_colour_gradient(low = "white", high = "#08519C"))
+
+ggsave2("DotPlot_mainmarkers_0.2.pdf", path = "results", width = 16, height = 8)
+
+abc <- seu_obj@meta.data
+abc <- abc %>% mutate(mainmarkers = orig.ident)
+abc$mainmarkers<-as.character(abc$mainmarkers)
+class(abc$mainmarkers)
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==0)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==1)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==2)]="Monocyte macrophages"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==3)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==4)]="B cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==5)]="Normal lung"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==6)]="Plasma cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==7)]="Fibroblasts"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==8)]="Endothelial cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==9)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==10)]="Normal lung"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==11)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==12)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==13)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==14)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==15)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==16)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.2==17)]="Normal lung"
+
+seu_obj@meta.data <- abc
+Idents(seu_obj)<-"mainmarkers"
+
+
+seu_obj$mainmarkers <- factor(seu_obj$mainmarkers, levels = c("Normal lung","SCLC","Monocyte macrophages","T cells","B cells","Plasma cells","Endothelial cells","Fibroblasts"))
+DimPlot(seu_obj, 
+        group.by = "mainmarkers",
+        cols = brewer.pal(8, "Paired"),
+        label = TRUE, 
+        label.size = 4) +
+  ggtitle(NULL)
+ncol(seu_obj)
+# [1] 264842
+table(seu_obj$mainmarkers)
+# Normal lung                 SCLC Monocyte macrophages              T cells 
+# 10059               189392                22483                15637 
+# B cells         Plasma cells    Endothelial cells          Fibroblasts 
+# 8663                 7563                 3906                 7139 
+ggsave2("maincelltype-umap.pdf", path = "results", width = 8.5, height = 6)
+mainmarkers <- c("EPCAM","SFTPC","SCGB1A1","KRT17","PIFO","AGER",
+                 "CHGA","INSM1","GRP",
+                 "PTPRC","S100A8","S100A9","CD68",
+                 "CD3E","CD8A","NKG",
+                 "CD79A","CD19","CD38","IRF4",
+                 "PECAM1", "CD34","CDH5",
+                 "ACTA2","COL1A1","COL1A2")
+DotPlot(seu_obj, features = rev(mainmarkers), group.by = "mainmarkers",
+        dot.scale = 4) +coord_flip() +
+  scale_colour_gradient(low = "white", high = "#08519C")+theme(
+    panel.border = element_rect(color = "black", size = 0.8))+theme(plot.title = element_text(size = 6, face = "bold"),
+                                                                    legend.title=element_text(angle = 90,hjust = 0.5,vjust=0.5,size=5), 
+                                                                    legend.text=element_text(size=5),
+                                                                    legend.key.height = unit(0.4, 'cm'),
+                                                                    legend.key.width = unit(0.2, 'cm'),
+                                                                    axis.text.x = element_text(size = 6,angle = 45,hjust = 1,vjust=1),
+                                                                    axis.text.y = element_text(size = 6),
+                                                                    axis.line.y=element_line(color="white",size=0),
+                                                                    axis.line.x=element_line(color="white",size=0))
+
+
+ggsave2("mainmarkers-dotplot.pdf", path = "results", width = 7, height = 14, units = "cm")
+
+save(seu_obj, file = "seu_singlets_decontX_harmony.Rda")
+####11-5####
+table(seu_obj$mainmarkers)
+Idents(seu_obj)<-"mainmarkers"
+T_cells <- subset(seu_obj,idents = "T cells")
+T_cells<- T_cells %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- T_cells[["pca"]]@stdev
+sum.stdv <- sum(T_cells[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 20
+
+library(harmony)
+T_cells<- T_cells %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+library(dplyr)
+library(reticulate)
+library(sctransform)
+library(cowplot)
+library(ggplot2)
+library(viridis)
+library(tidyr)
+library(magrittr)
+library(reshape2)
+library(readxl)
+library(readr)
+library(stringr)
+library(tidyverse)
+library(DoubletFinder)
+library(RColorBrewer)
+library(homologene)
+library(grid)
+library(tibble)
+library(decontX)
+library(pheatmap)
+for (i in c(0.5)) {
+  T_cells <- FindClusters(T_cells, resolution = i)
+  p <- DimPlot(T_cells, reduction = "umap", raster = FALSE) + 
+    ggplot2::labs(title = paste0("resolution: ", i))
+  print(p)
+  ggplot2::ggsave(paste0("Dimplot_findclusters_resolution_",i,".pdf"), 
+                  path = "results-T_cells", 
+                  width = 15, height = 15, units = "cm")
+}
+
+
+mainmarkers <- c("EPCAM","CHGA","INSM1","PTPRC","CD3D","CD4", "CD8A", "GZMK","NKG7","GZMB","CD44","PDCD1","FOXP3","MKI67","CCR7","SELL")
+mainmarkers <- c("Epcam","Ptprc","Cd3d","Cd4", "Cd8a", "Ccr7", "Lef1", "Gzmk","Cd44","Nkg7","Gzmb", "Gzma", "Cst7","Cd79a", "Cd79b", "Ms4a1", "Cd22", "Cd19","Cd14",  "S100a8", "S100a9")
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(T_cells, 
+                           group.by = "RNA_snn_res.0.3",
+                           cols = c(brewer.pal(12,"Paired")),
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(T_cells, 
+                           features = rev(mainmarkers), 
+                           group.by = "RNA_snn_res.0.3") +
+                     ggplot2::coord_flip() +
+                     ggplot2::scale_colour_gradient(low = "white", high = "#08519C"))
+
+ggsave2("DotPlot_mainmarkers_0.3.pdf", path = "results-T_cells", width = 16, height = 8)
+save(T_cells, file = "T_cells.Rda")
+
+table(T_cells$mainmarkers)
+# T cells 
+# 15637
+abc <- T_cells@meta.data
+abc <- abc %>% mutate(mainmarkers = orig.ident)
+abc$mainmarkers<-as.character(abc$mainmarkers)
+class(abc$mainmarkers)
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==0)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==1)]="SCLC"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==2)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==3)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==4)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==5)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==6)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==7)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==8)]="T cells"
+abc$mainmarkers[which(abc$RNA_snn_res.0.3==9)]="T cells"
+
+
+T_cells@meta.data <- abc
+Idents(T_cells)<-"mainmarkers"
+table(T_cells$mainmarkers)
+# SCLC T cells 
+# 1660   13977 
+table(seu_obj$mainmarkers)
+# Normal lung                 SCLC Monocyte macrophages              T cells 
+# 10059               189392                22483                15637 
+# B cells         Plasma cells    Endothelial cells          Fibroblasts 
+# 8663                 7563                 3906                 7139 
+
+original_metadata <- seu_obj@meta.data
+
+new_tcells_metadata <- T_cells@meta.data[, "mainmarkers", drop = FALSE]
+new_tcells_metadata$barcodes <- rownames(new_tcells_metadata)
+
+
+seu_obj$mainmarkers <- as.character(seu_obj$mainmarkers)
+
+
+seu_obj$mainmarkers[rownames(new_tcells_metadata)] <- new_tcells_metadata$mainmarkers
+
+
+table(seu_obj$mainmarkers)
+# B cells    Endothelial cells          Fibroblasts Monocyte macrophages 
+# 8663                 3906                 7139                22483 
+# Normal lung         Plasma cells                 SCLC              T cells 
+# 10059                 7563               191052                13977 
+seu_obj$mainmarkers <- factor(seu_obj$mainmarkers, levels = c("Fibroblasts","Endothelial cells","Plasma cells","B cells","T cells","Monocyte macrophages","SCLC","Normal lung"))
+DimPlot(seu_obj, 
+        group.by = "mainmarkers",
+        cols = brewer.pal(8, "Paired"),
+        label = TRUE, 
+        label.size = 4) +
+  ggtitle(NULL)
+
+ggsave2("maincelltype-umap.pdf", path = "results", width = 8.5, height = 6)
+mainmarkers <- c("EPCAM","SFTPC","SCGB1A1","KRT17","PIFO","AGER",
+                 "CHGA","INSM1","GRP",
+                 "PTPRC","S100A8","S100A9","CD68",
+                 "CD3E","CD8A","NKG",
+                 "CD79A","CD19","CD38","IRF4",
+                 "PECAM1", "CD34","CDH5",
+                 "ACTA2","COL1A1","COL1A2")
+DotPlot(seu_obj, features = mainmarkers, group.by = "mainmarkers",
+        dot.scale = 4) +
+  scale_colour_gradient(low = "white", high = "#08519C")+theme(
+    panel.border = element_rect(color = "black", size = 0.8))+theme(plot.title = element_text(size = 6, face = "bold"),
+                                                                    legend.title=element_text(angle = 90,hjust = 0.5,vjust=0.5,size=5), 
+                                                                    legend.text=element_text(size=5),
+                                                                    legend.key.height = unit(0.4, 'cm'),
+                                                                    legend.key.width = unit(0.2, 'cm'),
+                                                                    axis.text.x = element_text(size = 6,angle = 45,hjust = 1,vjust=1),
+                                                                    axis.text.y = element_text(size = 6),
+                                                                    axis.line.y=element_line(color="white",size=0),
+                                                                    axis.line.x=element_line(color="white",size=0))
+
+
+ggsave2("mainmarkers-dotplot.pdf", path = "results", width = 15, height = 6, units = "cm")
+save(seu_obj, file = "seu_singlets_decontX_harmony_new.Rda")
+
+
+Idents(seu_obj)<-"mainmarkers"
+T_cells <- subset(seu_obj,idents = "T cells")
+table(T_cells$mainmarkers)
+# T cells 
+# 13977
+T_cells<- T_cells %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- T_cells[["pca"]]@stdev
+sum.stdv <- sum(T_cells[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 14
+
+library(harmony)
+T_cells<- T_cells %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+
+for (i in c(1)) {
+  T_cells <- FindClusters(T_cells, resolution = i)
+  p <- DimPlot(T_cells, reduction = "umap", raster = FALSE) + 
+    ggplot2::labs(title = paste0("resolution: ", i))
+  print(p)
+  ggplot2::ggsave(paste0("New_Dimplot_findclusters_resolution_",i,".pdf"), 
+                  path = "results-T_cells", 
+                  width = 15, height = 15, units = "cm")
+}
+
+
+mainmarkers <- c("EPCAM","CHGA","INSM1","PTPRC","CD3D","CD4", "CD8A", "GZMK","NKG7","GZMB","CD44","PDCD1","LAG3","CTLA4","FOXP3","LEF1","IL7R","RORA","MKI67","CCR7","SELL","SFTPC","TCF7")
+mainmarkers <- c("Epcam","Ptprc","Cd3d","Cd4", "Cd8a", "Ccr7", "Lef1", "Gzmk","Cd44","Nkg7","Gzmb", "Gzma", "Cst7","Cd79a", "Cd79b", "Ms4a1", "Cd22", "Cd19","Cd14",  "S100a8", "S100a9")
+
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(T_cells, 
+                           group.by = "RNA_snn_res.0.3",
+                           label = T,
+                           label.box = T,
+                           repel = F,
+                   ),
+                   DotPlot(T_cells, 
+                           features = rev(mainmarkers), 
+                           group.by = "RNA_snn_res.0.3") +
+                     ggplot2::coord_flip() +
+                     ggplot2::scale_colour_gradient(low = "white", high = "#08519C"))
+
+ggsave2("New_DotPlot_mainmarkers_0.3.pdf", path = "results-T_cells", width = 16, height = 8)
+abc <- T_cells@meta.data
+abc <- abc %>% mutate(markers = orig.ident)
+abc$markers<-as.character(abc$markers)
+class(abc$markers)
+abc$markers[which(abc$RNA_snn_res.0.3==0)]="Naive T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==1)]="NK cells"
+abc$markers[which(abc$RNA_snn_res.0.3==2)]="Exhausted T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==3)]="Effector CD8+ T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==4)]="Tregs"
+abc$markers[which(abc$RNA_snn_res.0.3==5)]="Naive T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==6)]="Proliferative T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==7)]="Effector CD8+ T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==8)]="Naive T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==9)]="Proliferative T cells"
+abc$markers[which(abc$RNA_snn_res.0.3==10)]="Memory T cells"
+
+T_cells@meta.data <- abc
+Idents(T_cells)<-"markers"
+table(T_cells$markers)
+# Effector CD8+ T cells     Exhausted T cells        Memory T cells         Naive T cells 
+# 2350                  1353                    88                  6139 
+# NK cells Proliferative T cells                 Tregs 
+# 1655                  1155                  1237 
+
+T_cells$markers <- factor(T_cells$markers, levels = c("Effector CD8+ T cells", "Naive T cells", "NK cells", "Exhausted T cells", "Tregs", "Proliferative T cells", "Memory T cells"))
+DimPlot(T_cells, 
+        group.by = "markers",
+        label = TRUE,
+        label.box = TRUE,
+        repel = FALSE)
+ncol(T_cells)
+# [1] 13977
+ggsave("umap-new.pdf", path = "results-T_cells", 
+       width = 20, height = 16,units = "cm")
+
+mainmarkers <- c("CD3D", "CD8A", "GZMK",
+                 "IL7R","CCR7","SELL",
+                 "NKG7","GZMB",
+                 "CD4","PDCD1",
+                 "CTLA4","FOXP3",
+                 "MKI67","CD44")
+table(T_cells$markers)
+
+T_cells$markers <- factor(T_cells$markers, levels = c("Memory T cells", 
+                                                      "Tregs", 
+                                                      "Proliferative T cells", 
+                                                      "NK cells", 
+                                                      "Naive T cells", 
+                                                      "Exhausted T cells", 
+                                                      "Effector CD8+ T cells"))
+
+
+DotPlot(T_cells, features = mainmarkers, group.by = "markers",
+        dot.scale = 4) +
+  scale_colour_gradient(low = "white", high = "#08519C") +
+  theme(
+    panel.border = element_rect(color = "black", size = 0.8),
+    plot.title = element_text(size = 6, face = "bold"),
+    legend.title = element_text(angle = 90, hjust = 0.5, vjust = 0.5, size = 5),
+    legend.text = element_text(size = 5),
+    legend.key.height = unit(0.4, 'cm'),
+    legend.key.width = unit(0.2, 'cm'),
+    axis.text.x = element_text(size = 6, angle = 45, hjust = 1, vjust = 1),
+    axis.text.y = element_text(size = 6),
+    axis.line.y = element_line(color = "white", size = 0),
+    axis.line.x = element_line(color = "white", size = 0)
+  )
+
+ggsave2("clusters-dotplot_NK.pdf", path = "results-T_cells", width =4.2, height = 2.1)
+table(T_cells$orig.ident)
+
+low_cell_samples <- names(which(table(T_cells$orig.ident) < 5))
+
+
+T_cells_filtered <- subset(T_cells, subset = orig.ident %in% low_cell_samples, invert = TRUE)
+
+
+Idents(T_cells_filtered) <- "markers"
+
+
+T_cells_filtered_no_nk <- subset(T_cells_filtered, markers != "NK cells")
+
+
+table(Idents(T_cells_filtered_no_nk), T_cells_filtered_no_nk$orig.ident) 
+
+Cellratio <- prop.table(table(T_cells_filtered_no_nk@meta.data$markers, T_cells_filtered_no_nk@meta.data$orig.ident), margin = 2) # 计算各组样本不同细胞群比例
+Cellratio <- as.data.frame(Cellratio)
+colnames(Cellratio) <- c("markers", "sample", "ratio") 
+
+
+unique(Cellratio$markers)
+
+
+Cellratio$markers <- factor(Cellratio$markers, 
+                            levels = c("Effector CD8+ T cells", "Naive T cells", 
+                                       "Exhausted T cells", "Tregs", "Proliferative T cells", "Memory T cells"))
+
+
+color_cluster <- c("#F8766D", "#B79F00", "#00BFC4","#00B0F6", "#619CFF", "#F564E3")
+names(color_cluster) <- levels(Cellratio$markers)
+
+
+library(ggalluvial)
+p <- ggplot(Cellratio, aes(x = sample, y = ratio, fill = markers, 
+                           stratum = markers, alluvium = markers)) +
+  geom_col(width = 0.4, color = NA) +
+  geom_flow(width = 0.4, alpha = 0.2, knot.pos = 0) + 
+  scale_fill_manual(values = color_cluster) +
+  theme_classic() +
+  theme(panel.border = element_rect(fill = NA, color = "black", size = 0.5, linetype = "solid")) +
+  theme(legend.position = "right", axis.text.x = element_text(angle = 0)) +
+  labs(title = "Cell Type Proportions (Excluding NK cells)")
+p
+ggsave("markers_ratio_no_nk.pdf", path = "results-T_cells", width = 20, height = 5)
+
+
+
+table(T_cells_filtered_no_nk$markers)
+
+#### 3D PIE####
+library(plotrix)
+
+
+markers_counts <- table(T_cells_filtered_no_nk$markers)
+markers_percent <- round(prop.table(markers_counts) * 100, 1)
+
+
+specified_order <- c("Effector CD8+ T cells", "Naive T cells", 
+                     "Exhausted T cells", "Tregs", "Proliferative T cells", "Memory T cells")
+
+
+markers_counts_ordered <- markers_counts[specified_order]
+markers_percent_ordered <- markers_percent[specified_order]
+
+
+color_cluster <- c("#F8766D", "#B79F00", "#00BFC4", "#00B0F6", "#619CFF", "#F564E3")
+
+
+labels <- paste0(names(markers_counts_ordered), "\n", markers_percent_ordered, "%")
+
+
+pie3D(as.numeric(markers_counts_ordered), 
+      labels = labels,
+      explode = 0.1, 
+      col = color_cluster,
+      theta = pi/6,
+      start = 1.5,
+      height = 0.1, 
+      labelcex = 0.8,
+      main = "Cell Type Proportions (Excluding NK cells)")
+
+# ggsave("markers_ratio_bing_no_nk.pdf", path = "results-T_cells", width = 5, height = 5)
+library(dplyr)
+
+effector_ratio <- Cellratio %>%
+  filter(markers == "Effector CD8+ T cells") %>%
+  select(sample, ratio)  
+
+
+print(effector_ratio)
+
+
+write.csv(effector_ratio, "effector_cd8_ratio.csv", row.names = FALSE)
+####FINAL####
+effector_ratio <- read.csv(file = "effector_cd8_ratio.csv")
+Idents(seu_obj) <- "mainmarkers"
+SCLC<-subset(seu_obj,idents = "SCLC")
+rm(seu_obj)
+
+taf1_expression <- AverageExpression(SCLC, 
+                                     assays = "RNA",
+                                     features = "TAF1",
+                                     group.by = "orig.ident")$RNA
+
+taf1_expression <- as.data.frame(t(taf1_expression))
+colnames(taf1_expression) <- "TAF1_expression"
+taf1_expression$sample <- rownames(taf1_expression)
+
+
+combined_data <- merge(effector_ratio, taf1_expression, by = "sample", all.x = TRUE)
+
+
+print(combined_data)
+
+combined_data_filtered <- combined_data[combined_data$ratio > 0, ]
+
+correlation_filtered <- cor.test(combined_data_filtered$ratio, 
+                                 combined_data_filtered$TAF1_expression, 
+                                 method = "pearson")
+
+
+library(ggplot2)
+p <- ggplot(combined_data_filtered, aes(x = TAF1_expression, y = ratio)) +
+  geom_point(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = TRUE, color = "red", linetype = "dashed") +
+  labs(title = paste0("TAF1 Expression vs CD8+T Cell Ratio\n",
+                      "Pearson r = ", round(correlation_filtered$estimate, 3),
+                      ", p = ", round(correlation_filtered$p.value, 4)),
+       x = "TAF1 Expression Level",
+       y = "CD8+T Cell Ratio") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+print(p)
+
+
+ggsave("TAF1_CD8_correlation.pdf", path = "results-T_cells", p, width = 4, height = 4)
+table(T_cells$markers)
+save(T_cells, file = "T_cells_new.Rda")
+####no-NK-Tcells####
+Idents(T_cells)<-"markers"
+T_cells_no_NK <- subset(T_cells, idents = "NK cells", invert = TRUE)
+table(T_cells_no_NK$markers)
+# Effector CD8+ T cells         Naive T cells     Exhausted T cells                 Tregs 
+# 2350                  6139                  1353                  1237 
+# Proliferative T cells        Memory T cells 
+# 1155                    88 
+
+T_cells_no_NK<- T_cells_no_NK %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- T_cells_no_NK[["pca"]]@stdev
+sum.stdv <- sum(T_cells_no_NK[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 16
+
+library(harmony)
+T_cells_no_NK<- T_cells_no_NK %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+
+
+T_cells_no_NK <- FindClusters(T_cells_no_NK, resolution = 0.5)
+
+
+
+mainmarkers <- c("EPCAM","CHGA","INSM1","PTPRC","CD3D","CD4", "CD8A", "GZMK","NKG7","GZMB","CD44","PDCD1","LAG3","CTLA4","FOXP3","LEF1","IL7R","RORA","MKI67","CCR7","SELL","SFTPC","TCF7")
+
+
+T_cells_no_NK$markers <- factor(T_cells_no_NK$markers, levels = c("Effector CD8+ T cells", "Naive T cells", "Exhausted T cells", "Tregs", "Proliferative T cells", "Memory T cells"))
+DimPlot(T_cells_no_NK, 
+        group.by = "markers",
+        label = TRUE,
+        label.box = TRUE,
+        repel = FALSE)
+ncol(T_cells_no_NK)
+# [1] 12322
+ggsave("umap-new.pdf", path = "results-T_cells_no_NK", 
+       width = 20, height = 16,units = "cm")
+
+save(T_cells_no_NK, file = "T_cells_no_NK.Rda")
+####39-tregs####
+library(dplyr)
+library(openxlsx)
+library(pwr)
+table(seu_obj$mainmarkers)
+table(T_cells_no_NK$markers)
+library(ggplot2)
+library(dplyr)
+
+library(ggplot2)
+
+# Filter samples with Treg count > 0
+treg_count_per_sample <- table(T_cells_no_NK$orig.ident, T_cells_no_NK$markers)
+treg_count <- data.frame(
+  sample = rownames(treg_count_per_sample),
+  treg_count = treg_count_per_sample[, "Tregs"],
+  total_T = rowSums(treg_count_per_sample)
+)
+samples_keep <- treg_count$sample[treg_count$treg_count > 0]
+
+# Calculate Treg ratio
+T_cells_filtered <- subset(T_cells_no_NK, orig.ident %in% samples_keep)
+treg_ratio <- T_cells_filtered@meta.data %>%
+  group_by(orig.ident) %>%
+  summarise(treg_ratio = sum(markers == "Tregs") / n()) %>%
+  select(sample = orig.ident, treg_ratio)
+
+# Extract TAF1 expression
+sclc_indices <- which(seu_obj$mainmarkers == "SCLC")
+taf1_exp <- GetAssayData(seu_obj, assay = "RNA", slot = "data")["TAF1", sclc_indices, drop = FALSE]
+
+taf1_mean <- data.frame(
+  sample = seu_obj$orig.ident[sclc_indices],
+  TAF1_exp = as.numeric(taf1_exp)
+) %>%
+  group_by(sample) %>%
+  summarise(TAF1_mean = mean(TAF1_exp)) %>%
+  filter(sample %in% treg_ratio$sample)
+
+combined <- merge(taf1_mean, treg_ratio, by = "sample")
+
+# Correlation
+cor_test <- cor.test(combined$TAF1_mean, combined$treg_ratio, method = "pearson")
+
+# Plot
+p <- ggplot(combined, aes(x = TAF1_mean, y = treg_ratio)) +
+  geom_point(size = 3, alpha = 0.7, color = "steelblue") +
+  geom_smooth(method = "lm", se = TRUE, color = "red", linetype = "dashed") +
+  labs(title = paste0("TAF1 Expression vs Treg Ratio\n",
+                      "Pearson r = ", round(cor_test$estimate, 3),
+                      ", p = ", format(cor_test$p.value, scientific = TRUE, digits = 3)),
+       x = "TAF1 Expression Level",
+       y = "Treg / Total T Cells Ratio") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggsave("TAF1_Treg_correlation.pdf", plot = p, width = 4, height = 3.5)
+####mono/macro####
+table(seu_obj$mainmarkers)
+# Normal lung                 SCLC Monocyte macrophages 
+# 10059               191052                22483 
+# T cells              B cells         Plasma cells 
+# 13977                 8663                 7563 
+# Endothelial cells          Fibroblasts 
+# 3906                 7139 
+Mono_macro <- subset(seu_obj,idents = "Monocyte macrophages")
+
+Mono_macro<- Mono_macro %>%  
+  NormalizeData(.) %>%
+  FindVariableFeatures(.) %>%
+  ScaleData(.) %>%
+  RunPCA(.) 
+
+stdv <- Mono_macro[["pca"]]@stdev
+sum.stdv <- sum(Mono_macro[["pca"]]@stdev)
+percent.stdv <- (stdv / sum.stdv) * 100
+cumulative <- cumsum(percent.stdv)
+co1 <- which(cumulative > 90 & percent.stdv < 5)[1]
+co2 <- sort(which((percent.stdv[1:length(percent.stdv) - 1] - 
+                     percent.stdv[2:length(percent.stdv)]) > 0.1), 
+            decreasing = T)[1] + 1
+min.pc <- min(co1, co2)
+min.pc
+# [1] 14
+
+library(harmony)
+Mono_macro<- Mono_macro %>% 
+  RunHarmony(.,dims.use = 1:min.pc,
+             group.by.vars = "orig.ident",
+             plot_convergence = TRUE) %>% 
+  RunUMAP(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  RunTSNE(.,  reduction = "harmony", dims = 1:min.pc) %>% 
+  FindNeighbors(., reduction = "harmony", dims = 1:min.pc)
+
+for (i in c(0.2,0.3,0.5,1)) {
+  Mono_macro <- FindClusters(Mono_macro, resolution = i)
+  p <- DimPlot(Mono_macro, reduction = "umap", raster = FALSE) + 
+    ggplot2::labs(title = paste0("resolution: ", i))
+  print(p)
+  ggplot2::ggsave(paste0("New_Dimplot_findclusters_resolution_",i,".pdf"), 
+                  path = "results-Mono_macro", 
+                  width = 15, height = 15, units = "cm")
+}
+save(Mono_macro, file = "Mono_macro.Rda")
+
+mainmarkers <- c(
+  "CD68",
+  "CD14",
+  "MRC1",
+  "CD86",
+  "FCGR3A",
+  "FABP4",
+  "C1QA",
+  "IFI27",
+  "IL1B",
+  "SOCS3",
+  "MSR1",
+  "MS4A7",
+  "RARRES1",
+  "FOLR2",
+  "VCAN",
+  "S100A12",
+  "FCER1A",
+  "CD1C",
+  "IL7R",
+  "SPP1",
+  "RNASE1",
+  "MKI67",
+  "TOP2A"
+)
+
+
+
+cowplot::plot_grid(ncol = 2, 
+                   DimPlot(Mono_macro, 
+                           group.by = "RNA_snn_res.0.2",
+                           label = TRUE,
+                           label.box = TRUE,
+                           repel = FALSE
+                   ),
+                   DotPlot(Mono_macro, 
+                           features = rev(mainmarkers),  
+                           group.by = "RNA_snn_res.0.2") +
+                     ggplot2::coord_flip() +
+                     ggplot2::scale_colour_gradient(low = "white", high = "#08519C")
+)
+
+ggsave2("DotPlot_mainmarkers_0.2.pdf", path = "results-Mono_macro", width = 16, height = 8)
+Idents(Mono_macro)<-"RNA_snn_res.0.2"
+abc <- Mono_macro@meta.data
+abc <- abc %>% mutate(mmmarkers = orig.ident)
+abc$mmmarkers<-as.character(abc$mmmarkers)
+class(abc$mmmarkers)
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==0)]="Mono"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==1)]="Mφ-FOLR2"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==2)]="DC"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==3)]="Mφ-SPP1"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==4)]="Mφ-FABP4"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==5)]="Mφ-CD68"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==6)]="Mono"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==7)]="Mφ-MKI67"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==8)]="Mφ-SOCS3"
+abc$mmmarkers[which(abc$RNA_snn_res.0.2==9)]="DC"
+
+Mono_macro@meta.data <- abc
+Idents(Mono_macro)<-"mmmarkers"
+table(Mono_macro$mmmarkers)
+
+Mono_macro$mmmarkers <- factor(Mono_macro$mmmarkers, levels = c("Mono","DC","Mφ-FOLR2","Mφ-SPP1","Mφ-FABP4","Mφ-CD68","Mφ-MKI67","Mφ-SOCS3"))
+DimPlot(Mono_macro, 
+        group.by = "mmmarkers",
+        cols = brewer.pal(8, "Paired")) +
+  ggtitle(NULL)
+ggsave2("umap.pdf", path = "results-Mono_macro", width = 7, height = 6)
+Mono_macro$mmmarkers <- factor(Mono_macro$mmmarkers, levels = c("Mφ-SOCS3","Mφ-MKI67","Mφ-CD68","Mφ-FABP4","Mφ-SPP1","Mφ-FOLR2","DC","Mono"))
+DotPlot(Mono_macro, features = mainmarkers, group.by = "mmmarkers",
+        dot.scale = 4) +
+  scale_colour_gradient(low = "white", high = "#08519C") +
+  theme(
+    panel.border = element_rect(color = "black", size = 0.8),
+    plot.title = element_text(size = 6, face = "bold"),
+    legend.title = element_text(angle = 90, hjust = 0.5, vjust = 0.5, size = 5),
+    legend.text = element_text(size = 5),
+    legend.key.height = unit(0.4, 'cm'),
+    legend.key.width = unit(0.2, 'cm'),
+    axis.text.x = element_text(size = 6, angle = 45, hjust = 1, vjust = 1),
+    axis.text.y = element_text(size = 6),
+    axis.line.y = element_line(color = "white", size = 0),
+    axis.line.x = element_line(color = "white", size = 0)
+  )
+ggsave2("DotPlot.pdf", path = "results-Mono_macro", width = 8, height = 3)
+
+ncol(Mono_macro)
+# [1] 22483
+
+
+library(dplyr)
+library(ggplot2)
+library(openxlsx)
+library(pheatmap)
+library(tidyr)
+
+
+sclc_indices <- which(seu_obj$mainmarkers == "SCLC")
+
+taf1_exp <- GetAssayData(seu_obj, assay = "RNA", slot = "data")["TAF1", sclc_indices, drop = FALSE]
+
+taf1_sample_mean <- data.frame(
+  sample = seu_obj$orig.ident[sclc_indices],
+  TAF1 = as.numeric(taf1_exp)
+) %>%
+  group_by(sample) %>%
+  summarise(TAF1_mean = mean(TAF1, na.rm = TRUE))
+
+
+celltype_order <- c("Mono", "DC", "Mφ-FOLR2", "Mφ-SPP1", 
+                    "Mφ-FABP4", "Mφ-CD68", "Mφ-MKI67", "Mφ-SOCS3")
+
+
+macro_metadata <- Mono_macro@meta.data %>%
+  filter(!is.na(mmmarkers)) %>%
+  group_by(orig.ident, mmmarkers) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(orig.ident) %>%
+  mutate(total = sum(count),
+         proportion = count / total) %>%
+  ungroup() %>%
+  select(sample = orig.ident, celltype = mmmarkers, proportion) %>%
+  tidyr::pivot_wider(id_cols = sample, 
+                     names_from = celltype, 
+                     values_from = proportion, 
+                     values_fill = 0)
+
+
+for(ct in celltype_order) {
+  if(!ct %in% colnames(macro_metadata)) {
+    macro_metadata[[ct]] <- 0
+  }
+}
+
+
+macro_metadata <- macro_metadata %>%
+  select(sample, all_of(celltype_order))
+
+
+correlation_results <- data.frame()
+
+for(ct in celltype_order) {
+  
+  positive_samples <- macro_metadata %>%
+    filter(.data[[ct]] > 0) %>%
+    pull(sample)
+  
+  
+  combined_ct <- taf1_sample_mean %>%
+    filter(sample %in% positive_samples) %>%
+    inner_join(macro_metadata %>% select(sample, !!ct), by = "sample")
+  
+  
+  if(nrow(combined_ct) >= 3) {
+    cor_test <- cor.test(combined_ct$TAF1_mean, combined_ct[[ct]], method = "pearson")
+    
+    correlation_results <- rbind(correlation_results, data.frame(
+      CellType = ct,
+      Correlation = cor_test$estimate,
+      Pvalue = cor_test$p.value,
+      Samples_Used = nrow(combined_ct),
+      Total_Samples = nrow(taf1_sample_mean),
+      Positive_Samples = length(positive_samples),
+      CI_lower = cor_test$conf.int[1],
+      CI_upper = cor_test$conf.int[2]
+    ))
+  } else {
+    correlation_results <- rbind(correlation_results, data.frame(
+      CellType = ct,
+      Correlation = NA,
+      Pvalue = NA,
+      Samples_Used = nrow(combined_ct),
+      Total_Samples = nrow(taf1_sample_mean),
+      Positive_Samples = length(positive_samples),
+      CI_lower = NA,
+      CI_upper = NA
+    ))
+  }
+}
+
+
+correlation_results <- correlation_results %>%
+  filter(!is.na(Correlation)) %>%
+  mutate(
+    FDR = p.adjust(Pvalue, method = "BH"),
+    Significance = case_when(
+      FDR < 0.05 ~ "**",
+      Pvalue < 0.05 ~ "*",
+      TRUE ~ ""
+    ),
+    
+    CellType = factor(CellType, levels = celltype_order)
+  ) %>%
+  arrange(CellType)
+
+
+wb <- createWorkbook()
+
+addWorksheet(wb, "TAF1_Macro_Correlation")
+writeData(wb, "TAF1_Macro_Correlation", correlation_results)
+
+
+for(ct in correlation_results$CellType) {
+  positive_samples <- macro_metadata %>%
+    filter(.data[[ct]] > 0) %>%
+    pull(sample)
+  
+  combined_ct <- taf1_sample_mean %>%
+    filter(sample %in% positive_samples) %>%
+    inner_join(macro_metadata %>% select(sample, !!ct), by = "sample")
+  
+  if(nrow(combined_ct) > 0) {
+    sheet_name <- gsub("Mφ-", "", ct)  
+    sheet_name <- gsub("-", "_", substr(sheet_name, 1, 20))
+    addWorksheet(wb, sheet_name)
+    writeData(wb, sheet_name, combined_ct)
+  }
+}
+
+saveWorkbook(wb, "TAF1_myeloid_subcluster_correlations.xlsx", overwrite = TRUE)
+
+
+p_bar <- ggplot(correlation_results, aes(x = reorder(CellType, Correlation), y = Correlation, fill = Correlation > 0)) +
+  geom_bar(stat = "identity", width = 0.7) +
+  coord_flip() +
+  geom_hline(yintercept = 0, linetype = "solid", color = "black", linewidth = 0.8) +
+  geom_text(aes(label = paste0(Significance, " p = ", round(Pvalue, 3))), 
+            hjust = ifelse(correlation_results$Correlation > 0, -0.1, 1.1), 
+            size = 3.5) +
+  scale_fill_manual(values = c("TRUE" = "#D62728", "FALSE" = "#08519C"), guide = "none") +
+  labs(title = "TAF1 Correlation with Myeloid Subcluster Proportions in SCLC",
+       x = NULL,
+       y = "Pearson Correlation Coefficient") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, size = 12, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5, size = 10, color = "gray50"),
+        axis.text.y = element_text(size = 10))
+
+ggsave("TAF1_myeloid_subcluster_barplot.pdf", plot = p_bar, width = 6, height = 4)
+
+
+####CCLE-SCLC####
+
+
+library(dplyr)
+library(ggplot2)
+library(ggpubr)
+
+ccle_expr <- read.csv("OmicsExpressionTPMLogp1HumanProteinCodingGenes.csv", header = TRUE, row.names = 1)
+ccle_expr$HLA.DQA1..3117.
+TAF1 = TAF1..6872.
+TAP1 = TAP1..6890.
+ccle_expr$TAP1..6890.
+
+ccle_metadata <- read.csv("Model.csv")  # DepMap
+
+
+sclc_cell_lines <- ccle_metadata %>%
+  filter(OncotreeSubtype == "Small Cell Lung Cancer")
+
+
+library(tidyverse)   
+library(corrplot)    
+
+library(Hmisc)       
+
+
+gene_expr <- ccle_expr %>%
+  select(
+    ModelID,
+    TAF1..6872.,
+    HLA.DQB1..3119.,
+    HLA.DRB1..3123.,
+    HLA.DQA1..3117.,
+    TAP1..6890.
+  ) %>%
+  
+  rename(
+    TAF1 = TAF1..6872.,
+    HLA_DQB1 = HLA.DQB1..3119.,
+    HLA_DRB1 = HLA.DRB1..3123.,
+    HLA_DQA1 = HLA.DQA1..3117.,
+    TAP1 = TAP1..6890.
+  )
+
+
+
+merged_data <- inner_join(
+  x = sclc_cell_lines,          
+  y = gene_expr,                
+  by = "ModelID"                
+)
+
+
+
+
+library(writexl)  
+write_xlsx(
+  x = merged_data,           
+  path = "merged_data.xlsx"  
+)
+
+pearson_test <- cor.test(
+  x = merged_data$TAF1, 
+  y = merged_data$TAP1,  
+  method = "pearson",            
+  conf.level = 0.95              
+)
+
+
+
+pearson_test <- cor.test(
+  x = merged_data$TAF1, 
+  y = merged_data$HLA_DQB1,  
+  method = "pearson",            
+  conf.level = 0.95              
+)
+
+
+pearson_test <- cor.test(
+  x = merged_data$TAF1, 
+  y = merged_data$HLA_DRB1,  
+  method = "pearson",            
+  conf.level = 0.95              
+)
+
+
+pearson_test <- cor.test(
+  x = merged_data$TAF1, 
+  y = merged_data$HLA_DQA1,  
+  method = "pearson",            
+  conf.level = 0.95              
+)
+
+
+library(ggplot2)
+library(ggpubr)
+p_TAP1 <- ggplot(merged_data, aes(x = TAF1, y = TAP1)) +  
+  xlab("TAF1 Expression") +  
+  ylab("TAP1 Expression") +  
+  geom_point(color = "gray", size = 2) +  
+  
+  geom_smooth(
+    method = "lm", 
+    formula = y ~ x, 
+    color = "red", 
+    se = TRUE, 
+    fill = "red", 
+    alpha = 0.1
+  ) +
+  theme_bw() +  
+  
+  theme(
+    panel.grid = element_blank(),  
+    axis.text.x = element_text(size = 12),  
+    axis.text.y = element_text(size = 12),  
+    axis.title.x = element_text(size = 14, margin = margin(t = 10)),  
+    axis.title.y = element_text(size = 14, margin = margin(r = 10)),  
+    axis.ticks = element_line(size = 1),  
+    panel.border = element_rect(color = "black", size = 1.5),
+    plot.title = element_text(hjust = 0.5, face = "bold") 
+  ) +
+  
+  stat_cor(
+    method = "pearson",  
+    aes(x = TAF1, y = TAP1), 
+    label.x.npc = 0.5, label.y.npc = 0.95,
+    size = 5
+  ) +
+  labs(title = paste("TAF1", "vs", "TAP1"))
+
+
+
+p_HLA_DRB1 <- ggplot(merged_data, aes(x = TAF1, y = HLA_DRB1)) +  # x为CREBBP，y为STING1
+  xlab("TAF1 Expression") +  
+  ylab("HLA_DRB1 Expression") +  
+  geom_point(color = "gray", size = 2) +  
+  
+  geom_smooth(
+    method = "lm", 
+    formula = y ~ x, 
+    color = "red", 
+    se = TRUE, 
+    fill = "red", 
+    alpha = 0.1
+  ) +
+  theme_bw() +  
+  
+  theme(
+    panel.grid = element_blank(),  
+    axis.text.x = element_text(size = 12), 
+    axis.text.y = element_text(size = 12),  
+    axis.title.x = element_text(size = 14, margin = margin(t = 10)),  
+    axis.title.y = element_text(size = 14, margin = margin(r = 10)),  
+    axis.ticks = element_line(size = 1),  
+    panel.border = element_rect(color = "black", size = 1.5),
+    plot.title = element_text(hjust = 0.5, face = "bold") 
+  ) +
+  
+  stat_cor(
+    method = "pearson",  
+    aes(x = TAF1, y = HLA_DRB1), 
+    label.x.npc = 0.5, label.y.npc = 0.95,
+    size = 5
+  ) +
+  labs(title = paste("TAF1", "vs", "HLA-DRB1"))
+
+
+ggsave("TAF1_vs_HLA_DRB1_CCLE_12.pdf", p_HLA_DRB1, 
+       width = 5, height = 5, device = "pdf")
+
+
+p_HLA_DQA1 <- ggplot(merged_data, aes(x = TAF1, y = HLA_DQA1)) + 
+  xlab("TAF1 Expression") +  
+  ylab("HLA_DQA1 Expression") +  
+  geom_point(color = "gray", size = 2) +  
+  
+  geom_smooth(
+    method = "lm", 
+    formula = y ~ x, 
+    color = "red", 
+    se = TRUE, 
+    fill = "red", 
+    alpha = 0.1
+  ) +
+  theme_bw() +  
+  
+  theme(
+    panel.grid = element_blank(),  
+    axis.text.x = element_text(size = 12),  
+    axis.text.y = element_text(size = 12),  
+    axis.title.x = element_text(size = 14, margin = margin(t = 10)),  
+    axis.title.y = element_text(size = 14, margin = margin(r = 10)), 
+    axis.ticks = element_line(size = 1),  
+    panel.border = element_rect(color = "black", size = 1.5),
+    plot.title = element_text(hjust = 0.5, face = "bold") 
+  ) +
+  
+  stat_cor(
+    method = "pearson",  
+    aes(x = TAF1, y = HLA_DQA1), 
+    label.x.npc = 0.5, label.y.npc = 0.95,
+    size = 5
+  ) +
+  labs(title = paste("TAF1", "vs", "HLA-DQA1"))
+
+
+ggsave("TAF1_vs_HLA_DQA1_CCLE_12.pdf", p_HLA_DQA1, 
+       width = 5, height = 5, device = "pdf")
+
+
+
+
+
+
+
+
